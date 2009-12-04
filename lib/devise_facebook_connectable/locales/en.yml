@@ -1,0 +1,7 @@
+en:
+  devise:
+    facebook_connectable:
+      invalid: "Could not login. Invalid account."
+      session_expired: "Could not login. Facebook Connect session expired."
+      login: "Connect"
+      logout: "Logout"

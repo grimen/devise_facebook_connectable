@@ -1,8 +1,8 @@
 # encoding: utf-8
+require 'devise'
 require 'devise_facebook_connectable/strategy'
 
-module Devise
-  module Models
+Devise::Models.module_eval do
     
     # Facebook Connectable Module, responsible for validating authenticity of a 
     # user and storing credentials while signing in using their Facebook account.
@@ -15,6 +15,9 @@ module Devise
     #   facebook_uid_field: Defines the name of the Facebook user UID database attribute/column.
     #
     #   facebook_session_key_field: Defines the name of the Facebook session key database attribute/column.
+    #
+    #   facebook_skip_create: Speifies if account should automatically be created upon connect
+    #                         if not already exists.
     #
     # Examples:
     #
@@ -91,10 +94,9 @@ module Devise
             true
           end
 
-          # TODO: Devise::Models.config(self, :facebook_uid_field, :facebook_session_key_field)
+        ::Devise::Models.config(self, :facebook_uid_field, :facebook_session_key_field, :facebook_skip_create)
 
       end
 
     end
-  end
 end

@@ -1,8 +1,12 @@
+# encoding: utf-8
 require 'warden'
-require 'facebooker'
 
 module Devise
   module Strategies
+
+    # Default strategy for signing in a user using Facebook Connect (a Facebook account).
+    # Redirects to sign_in page if it's not authenticated
+    #
     class FacebookConnectable < ::Warden::Strategies::Base
 
       # Without a Facebook session authentication cannot proceed.
@@ -16,7 +20,7 @@ module Devise
       def authenticate!
         begin
           facebook_session = session[:facebook_session]
-          user = mapping.to.authenticate(facebook_session.user.uid)
+          user = mapping.to.faceboook_connect(facebook_session.user.uid)
 
           if user.present?
             success!(user)
@@ -25,7 +29,10 @@ module Devise
               fail!(:invalid)
             else
               user = mapping.to.new do |u|
-                u.store_credentials!(:uid => facebook_session.user.uid, :session_key => facebook_session.session_key)
+                u.store_facebook_credentials!(
+                    :uid => facebook_session.user.uid,
+                    :session_key => facebook_session.session_key
+                  )
                 u.before_connect(facebook_session)
               end
 

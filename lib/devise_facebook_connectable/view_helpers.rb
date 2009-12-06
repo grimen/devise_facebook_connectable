@@ -1,8 +1,11 @@
+# encoding: utf-8
+require 'facebooker'
+
 module Devise
   module Helpers
     module FacebookConnectable
 
-      # Generic Facebook Connect login/connect button or link.
+      # Agnostic Facebook Connect login/connect button or link.
       #
       def facebook_connect_link(options = {})
         options.reverse_merge!(
@@ -24,7 +27,7 @@ module Devise
         content_tag(:span, link_html, :class => 'fb_connect_login_link')
       end
 
-      # Generic Facebook Connect logout button or link.
+      # Agnostic Facebook Connect logout button or link.
       #
       def facebook_logout_link(options ={})
         options.reverse_merge!(
@@ -47,7 +50,7 @@ module Devise
 
       protected
 
-        # Generate generic hidden login/logout form for Facebook Connect.
+        # Generate agnostic hidden login/logout form for Facebook Connect.
         #
         def facebook_connect_form(html_options = {})
           html_options.reverse_merge!(
@@ -61,3 +64,5 @@ module Devise
     end
   end
 end
+
+::ActionView::Base.send :include, ::Devise::Helpers::FacebookConnectable

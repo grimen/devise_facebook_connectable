@@ -4,7 +4,7 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
-NAME = "devise_facebook_connect"
+NAME = "devise_facebook_connectable"
 SUMMARY = %{Devise << Facebook Connect.}
 HOMEPAGE = "http://github.com/grimen/#{NAME}"
 AUTHORS = ["Jonas Grimfelt"]
@@ -28,8 +28,9 @@ begin
     gemspec.executables = %w[]
     gemspec.extra_rdoc_files = SUPPORT_FILES
     
-    gemspec.add_dependency 'activesupport',   '>= 2.3.0'
-    gemspec.add_dependency 'devise',          '>= 0.5.0'
+    #gemspec.add_dependency 'activesupport',   '>= 2.3.0'
+    #gemspec.add_dependency 'devise',          '>= 0.5.0'
+    #gemspec.add_dependency 'facebooker',      '>= 1.0.55'
   end
 rescue LoadError
   puts "Jeweler - or one of its dependencies - is not available. Install it with: sudo gem install jeweler -s http://gemcutter.org"

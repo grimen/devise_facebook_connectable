@@ -1,7 +1,10 @@
 # encoding: utf-8
 require 'devise_facebook_connectable/strategy'
-require 'facebooker'
+require 'devise_facebook_connectable/serializer'
 
+# FIXME: Don't know why I had to do this. I'm missing something. For some reason
+# Devise::Models gets unloaded when I do it the classic way. =S
+#
 Devise::Models.module_eval do
     
     # Facebook Connectable Module, responsible for validating authenticity of a 
@@ -21,39 +24,44 @@ Devise::Models.module_eval do
     #
     # Examples:
     #
-    #    User.facebook_connect('123456789')             # returns authenticated user or nil
-    #    User.find(1).facebook_connected?('123456789')  # returns true/false
+    #    User.facebook_connect(:uid => '123456789')     # returns authenticated user or nil
+    #    User.find(1).facebook_connected?               # returns true/false
     #
     module FacebookConnectable
 
       DEFAULT_FACEBOOK_UID_FIELD = :facebook_uid
       DEFAULT_FACEBOOK_SESSION_KEY_FIELD = :facebook_session_key
-      
+
       def self.included(base)
         base.class_eval do
           extend ClassMethods
 
           cattr_accessor :facebook_uid_field, :facebook_session_key_field, :facebook_skip_create
-          #attr_protected @@facebook_uid_field, @@facebook_session_key_field, @@facebook_skip_create
+          attr_protected @@facebook_uid_field, @@facebook_session_key_field, @@facebook_skip_create
         end
       end
 
       # Store Facebook Connect account/session credentials.
       #
       def store_facebook_credentials!(attributes = {})
-        puts self.class.facebook_uid_field
-        #self.send(:"#{self.class.facebook_uid_field}=", attributes[:uid])
-        #self.send(:"#{self.class.facebook_session_key_field}=", attributes[:session_key])
+        # FIXME: Don't work...nil for some reason.
+        # self.send(:"#{self.class.facebook_uid_field}=", attributes[:uid])
+        # self.send(:"#{self.class.facebook_session_key_field}=", attributes[:session_key])
+        
         self.send(:"#{DEFAULT_FACEBOOK_UID_FIELD}=", attributes[:uid])
         self.send(:"#{DEFAULT_FACEBOOK_SESSION_KEY_FIELD}=", attributes[:session_key])
+        
+        # Only populate +email+ field if it's available (say, if +authenticable+ module is used).
         self.email = attributes[:email] if self.respond_to?(:email)
-        # Uhm...lazy hack.
+        
+        # Lazy hack: These database fields are required if +authenticable+/+confirmable+
+        # module(s) is used.
         self.password_salt = '' if self.respond_to?(:password_salt)
         self.encrypted_password = '' if self.respond_to?(:encrypted_password)
         self.confirmed_at = ::Time.now if self.respond_to?(:confirmed_at)
       end
 
-      # Checks if Facebook Connected.
+      # Checks if Facebook Connect:ed.
       #
       def facebook_connected?
         self.send(:"#{self.class.facebook_uid_field}").present?
@@ -84,6 +92,9 @@ Devise::Models.module_eval do
 
       module ClassMethods
 
+        # Alias don't work for some reason, so...a more Ruby-ish alias
+        # for +facebook_skip_create+.
+        #
         def facebook_skip_create?
           self.facebook_skip_create
         end
@@ -108,6 +119,20 @@ Devise::Models.module_eval do
           if attributes[:uid].present?
             self.find_for_facebook_connect(attributes[:uid])
           end
+        end
+
+        # COPY-PASTE from Devise "authenticable": Hook to serialize user into session. Overwrite if you want.
+        #
+        def serialize_into_session(record)
+          [record.class, record.id]
+        end
+
+        # COPY-PASTE from Devise "authenticable": Hook to serialize user from session. Overwrite if you want.
+        #
+        def serialize_from_session(keys)
+          klass, id = keys
+          raise "#{self} cannot serialize from #{klass} session since it's not its ancestors" unless klass <= self
+          klass.find(:first, :conditions => { :id => id })
         end
 
         protected

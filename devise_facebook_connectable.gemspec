@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
      "lib/devise_facebook_connectable/model.rb",
      "lib/devise_facebook_connectable/routes.rb",
      "lib/devise_facebook_connectable/schema.rb",
+     "lib/devise_facebook_connectable/serializer.rb",
      "lib/devise_facebook_connectable/strategy.rb",
      "lib/devise_facebook_connectable/view_helpers.rb"
   ]
@@ -33,6 +34,7 @@ Gem::Specification.new do |s|
      "lib/devise_facebook_connectable/model.rb",
      "lib/devise_facebook_connectable/routes.rb",
      "lib/devise_facebook_connectable/schema.rb",
+     "lib/devise_facebook_connectable/serializer.rb",
      "lib/devise_facebook_connectable/strategy.rb",
      "lib/devise_facebook_connectable/view_helpers.rb"
   ]

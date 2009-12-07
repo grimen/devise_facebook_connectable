@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'warden'
 
 module Devise
   module Strategies
@@ -48,9 +47,7 @@ module Devise
             end
           end
         rescue ::Facebooker::Session::SessionExpired
-          #clear_facebook_session_information
-          #clear_fb_cookies!
-          #reset_session # i.e. logout the user
+          # TODO: Should maybe be handled?
           fail!(:facebook_session_expired)
         end
       end
@@ -60,5 +57,3 @@ module Devise
 end
 
 Warden::Strategies.add(:facebook_connectable, Devise::Strategies::FacebookConnectable)
-devise_strategies = Devise::STRATEGIES
-

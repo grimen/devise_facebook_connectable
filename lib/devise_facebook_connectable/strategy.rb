@@ -9,6 +9,8 @@ module Devise
     #
     class FacebookConnectable < ::Warden::Strategies::Base
 
+      include ::Devise::Strategies::Base
+
       # Without a Facebook session authentication cannot proceed.
       #
       def valid?
@@ -20,32 +22,36 @@ module Devise
       def authenticate!
         begin
           facebook_session = session[:facebook_session]
-          user = mapping.to.faceboook_connect(facebook_session.user.uid)
+          user = mapping.to.facebook_connect(:uid => facebook_session.user.uid)
 
           if user.present?
             success!(user)
           else
             if mapping.to.facebook_skip_create?
-              fail!(:invalid)
+              fail!(:facebook_invalid)
             else
               user = mapping.to.new do |u|
                 u.store_facebook_credentials!(
+                    :session_key => facebook_session.session_key,
                     :uid => facebook_session.user.uid,
-                    :session_key => facebook_session.session_key
+                    :email => facebook_session.user.proxied_email
                   )
                 u.before_connect(facebook_session)
               end
 
               begin
-                user.save_with_validation!(false)
+                user.save_with_validation(false)
                 success!(user)
-              rescue ::RecordInvalid
-                fail!(:invalid)
+              rescue
+                fail!(:facebook_invalid)
               end
             end
           end
         rescue ::Facebooker::Session::SessionExpired
-          fail!(:session_expired)
+          #clear_facebook_session_information
+          #clear_fb_cookies!
+          #reset_session # i.e. logout the user
+          fail!(:facebook_session_expired)
         end
       end
 
@@ -54,3 +60,5 @@ module Devise
 end
 
 Warden::Strategies.add(:facebook_connectable, Devise::Strategies::FacebookConnectable)
+devise_strategies = Devise::STRATEGIES
+

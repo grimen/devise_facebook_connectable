@@ -7,8 +7,8 @@ module Devise
 
         def self.included(klass)
           klass.class_eval do
-            # before_filter :set_facebook_session
-            # helper_method :facebook_session # session[:facebook_session]
+            before_filter :set_facebook_session
+            helper_method :facebook_session # session[:facebook_session]
           end
         end
 

@@ -9,7 +9,7 @@ module Devise
       #
       def facebook_connect_link(options = {})
         options.reverse_merge!(
-            :label => ::I18n.t(:login, :scope => [:devise, :facebook_connectable]),
+            :label => ::I18n.t(:facebook_login, :scope => [:devise]),
             :size => :large,
             :length => :long,
             :autologoutlink => false,
@@ -24,7 +24,8 @@ module Devise
           link_to_function(options[:label], 'fb_connect_custom_login();')
         end
 
-        content_tag(:span, link_html, :class => 'fb_connect_login_link')
+        #content_tag(:span, link_html, :class => 'fb_connect_login_link')
+        link_html
       end
       alias :facebook_login_link :facebook_connect_link
 
@@ -32,7 +33,7 @@ module Devise
       #
       def facebook_logout_link(options ={})
         options.reverse_merge!(
-            :label => ::I18n.t(:logout, :scope => [:devise, :facebook_connectable]),
+            :label => ::I18n.t(:facebook_logout, :scope => [:devise]),
             :size => :small,
             :length => :long,
             :background => :white,

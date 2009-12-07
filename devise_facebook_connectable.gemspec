@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jonas Grimfelt"]
-  s.date = %q{2009-12-06}
+  s.date = %q{2009-12-07}
   s.description = %q{Devise << Facebook Connect.}
   s.email = %q{grimen@gmail.com}
   s.extra_rdoc_files = [
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
      "lib/devise_facebook_connectable/controller_filters.rb",
      "lib/devise_facebook_connectable/locales/en.yml",
      "lib/devise_facebook_connectable/model.rb",
+     "lib/devise_facebook_connectable/routes.rb",
      "lib/devise_facebook_connectable/schema.rb",
      "lib/devise_facebook_connectable/strategy.rb",
      "lib/devise_facebook_connectable/view_helpers.rb"
@@ -30,6 +31,7 @@ Gem::Specification.new do |s|
      "lib/devise_facebook_connectable/controller_filters.rb",
      "lib/devise_facebook_connectable/locales/en.yml",
      "lib/devise_facebook_connectable/model.rb",
+     "lib/devise_facebook_connectable/routes.rb",
      "lib/devise_facebook_connectable/schema.rb",
      "lib/devise_facebook_connectable/strategy.rb",
      "lib/devise_facebook_connectable/view_helpers.rb"

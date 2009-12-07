@@ -1,4 +1,3 @@
 TODO
 
-* Test with Devise example app
-* Specs
+* Specs, not sure how to test the JS stuff (which Facebook Connect relies on)

@@ -1,6 +1,6 @@
 # encoding: utf-8
-require 'devise'
 require 'devise_facebook_connectable/strategy'
+require 'facebooker'
 
 Devise::Models.module_eval do
     
@@ -33,17 +33,24 @@ Devise::Models.module_eval do
         base.class_eval do
           extend ClassMethods
 
-          #cattr_accessor :facebook_uid_field, :facebook_session_key_field, :facebook_skip_create
+          cattr_accessor :facebook_uid_field, :facebook_session_key_field, :facebook_skip_create
           #attr_protected @@facebook_uid_field, @@facebook_session_key_field, @@facebook_skip_create
-          alias :facebook_skip_create? :facebook_skip_create
         end
       end
 
       # Store Facebook Connect account/session credentials.
       #
       def store_facebook_credentials!(attributes = {})
-        self.send(:"#{self.class.facebook_uid_field}=", attributes[:uid])
-        self.send(:"#{self.class.facebook_session_key_field}=", attributes[:session_key])
+        puts self.class.facebook_uid_field
+        #self.send(:"#{self.class.facebook_uid_field}=", attributes[:uid])
+        #self.send(:"#{self.class.facebook_session_key_field}=", attributes[:session_key])
+        self.send(:"#{DEFAULT_FACEBOOK_UID_FIELD}=", attributes[:uid])
+        self.send(:"#{DEFAULT_FACEBOOK_SESSION_KEY_FIELD}=", attributes[:session_key])
+        self.email = attributes[:email] if self.respond_to?(:email)
+        # Uhm...lazy hack.
+        self.password_salt = '' if self.respond_to?(:password_salt)
+        self.encrypted_password = '' if self.respond_to?(:encrypted_password)
+        self.confirmed_at = ::Time.now if self.respond_to?(:confirmed_at)
       end
 
       # Checks if Facebook Connected.
@@ -60,8 +67,26 @@ Devise::Models.module_eval do
         # Default: Nothing.
       end
       alias :before_connect :before_facebook_connect
-      
+
+      def store_session(using_session_key)
+        if self.session_key != using_session_key
+          self.update_attribute(:facebook_session_key, using_session_key)
+        end
+      end
+
+      def facebook_session
+        @facebook_session ||=
+          returning(::Facebooker::Session.create) do |new_session|
+            new_session.secure_with!(self.facebook_session_key, self.facebook_uid, 1.hour.from_now)
+            ::Facebooker::Session.current = new_session
+          end
+      end
+
       module ClassMethods
+
+        def facebook_skip_create?
+          self.facebook_skip_create
+        end
 
         # Specifies the name of the database column name used for storing
         # the user Facebook UID.
@@ -80,14 +105,15 @@ Devise::Models.module_eval do
         # Authenticate using a Facebook UID.
         #
         def facebook_connect(attributes = {})
-          return unless attributes[:facebook_uid].present?
-          self.find_for_facebook_connect(attributes[:facebook_uid])
+          if attributes[:uid].present?
+            self.find_for_facebook_connect(attributes[:uid])
+          end
         end
 
         protected
 
-          def find_for_facebook_connect(facebook_uid)
-            self.find_by_facebook_uid(facebook_uid)
+          def find_for_facebook_connect(uid)
+            self.find_by_facebook_uid(uid)
           end
 
           def valid_for_facebook_connect(resource, attributes)

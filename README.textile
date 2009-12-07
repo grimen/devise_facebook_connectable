@@ -1,3 +1,17 @@
 h1. DEVISE / FACEBOOK CONNECTABLE
 
-_It's all love._
+*Status:* Boink!, boink!, boink!...boink?!
+
+_Read: Don't expect it to work now._
+
+h2. Dependencies
+
+For now...
+
+* "grimen/devise":http://github.com/grimen/devise - Slightly altered version to make Devise pluggable.
+* "facebooker":http://github.com/mmangino/facebooker - Facebook API integration.
+
+h2. License
+
+Released under the MIT license.<br />
+Copyright (c) 2009 "Jonas Grimfelt":http://github.com/grimen

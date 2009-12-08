@@ -40,6 +40,10 @@ module Devise
   end
 end
 
+# Load core I18n locales: en
+#
+I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), *%w[devise_facebook_connectable locales en.yml]))
+
 # Ugly hack, but needed now.
 #
 Devise::STRATEGIES.unshift :facebook_connectable

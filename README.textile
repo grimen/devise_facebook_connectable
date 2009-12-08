@@ -251,7 +251,6 @@ h2. References
 h2. TODO / Known Issues
 
 * *Expired sessions* happens quite often right now. @before_facebook_connect@-hook fails. =/ Highest priority right now.
-* *I18n messages* seems to be ignored/overridden. Kinda sucks, and not sure how to fix that nicely right now.
 * *Specs* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
 * *Facebook Connect view generator* would be neat.
 

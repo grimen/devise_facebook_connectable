@@ -4,13 +4,11 @@ _Devise << Facebook Connect_
 
 h2. What is Devise?
 
-For the elevator pitch, go here:
-
 "http://github.com/plataformatec/devise":http://github.com/plataformatec/devise
 
 h2. What is Devise Facebook Connect?
 
-*Simple:* A very straightforward Facebook Connect authentication/linking with the ease of *Devise* and power of *Facebooker*. If I may say it myself: The easiest way to get an Rails app Facebook Connect:ed. Authentication in Rails should be straightforward, right? Let's build awesome web-apps instead of re-inventing the authentication!
+*Simple:* A very straightforward Facebook Connect authentication/linking with the ease of *"Devise":http://github.com/plataformatec/devise* and power of *"Facebooker":http://github.com/mmangino/facebooker*. If I may say it myself: The easiest way to get a Rails app authorized and connected with *"Facebook Connect":http://wiki.developers.facebook.com/index.php/Facebook_Connect*. Authentication in Rails should be straightforward, right? Let's build awesome web-apps instead of re-inventing the authentication!
 
 h2. Dependencies
 
@@ -242,19 +240,20 @@ h2. References
 *Documentation:*
 
 * "Facebooker RDoc":http://facebooker.rubyforge.org
+* "Facebook Connect Home":http://wiki.developers.facebook.com/index.php/Facebook_Connect
 * "Facebook Connect Wiki":http://wiki.developers.facebook.com/index.php/Connect/Authorization_Websites
 * "Facebook Connect Javascript SDK":http://developers.facebook.com/docs/?u=facebook.jslib.FB.Connect
 
 *Similar projects:*
 
-* "authlogic_facebook_connect":http://github.com/kalasjocke/authlogic_facebook_connect
+* "authlogic_facebook_connect":http://github.com/kalasjocke/authlogic_facebook_connect by "Joakim Ekberg":http://github.com/kalasjocke
 
 h2. TODO / Known Issues
 
 * *Expired sessions* happens quite often right now. @before_facebook_connect@-hook fails. =/ Highest priority right now.
-* *Facebook Connect view generator* would be neat.
 * *I18n messages* seems to be ignored/overridden. Kinda sucks, and not sure how to fix that nicely right now.
 * *Specs* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
+* *Facebook Connect view generator* would be neat.
 
 h2. License
 

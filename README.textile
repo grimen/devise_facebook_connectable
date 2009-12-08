@@ -70,6 +70,53 @@ See "Devise":http://github.com/grimen/devise documentation for more info on avai
 
 ...and create a @config/facebooker.yml@ (see *Configuration* below for more details).
 
+In @app/views/layouts/application.html.*@, something like:
+
+<pre>
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  
+  <!-- Include Facebook XMLNS (XML nammespace). See Facebooker - or Facebook API - documentation. -->
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+    <head>
+      <title><%= "Devise << Facebook Connect") %></title>
+      
+      <%= stylesheet_link_tag 'application' %>
+      
+      <!-- Include Facebook Javascript (with current locale). See Facebooker documentation. -->
+      <%= fb_connect_javascript_tag(:lang => ::I18n.locale) %>
+      
+      <%= javascript_include_tag :defaults %>
+    </head>
+    <body>
+      <!-- Init Facebook Javascript (using jQuery). See Facebooker documentation. -->
+      <%= init_fb_connect :XFBML, :js => :jquery %>
+      
+      <div id="container">
+        <%- flash.each do |name, msg| -%>
+          <%= content_tag :div, msg, :id => "flash_#{name}" %>
+        <%- end -%>
+        
+        <p><%= link_to 'Home', root_path %></p>
+        
+        <% if user_signed_in? -%>
+          <div id="user_login_box" style="float:right">
+            <%= current_user.email %> |
+            <%= link_to 'My info', edit_user_path %> |
+          </div>
+        <% end -%>
+        <div style="clear:both"></div>
+        
+        <%- if show_title? -%>
+          <h1><%=h yield(:title) %></h1>
+        <%- end -%>
+        
+        <%= yield %>
+      </div>
+    </body>
+  </html>
+</pre>
+
 *Facebook Connectable: Migration*
 
 <pre>
@@ -156,7 +203,7 @@ h2. Usage
 
 *View:*
 
-...add the connect/login/logout link:
+...add the connect/login/logout link somewhere:
 
 <pre>
   <%= facebook_link :for => :user %>

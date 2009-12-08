@@ -14,6 +14,8 @@ Gem::Specification.new do |s|
   s.email = %q{grimen@gmail.com}
   s.extra_rdoc_files = [
     "Rakefile",
+     "generators/devise_facebook_connectable/devise_facebook_connectable_generator.rb",
+     "generators/devise_facebook_connectable/templates/devise.facebook_connectable.js",
      "lib/devise_facebook_connectable.rb",
      "lib/devise_facebook_connectable/controller_filters.rb",
      "lib/devise_facebook_connectable/locales/en.yml",
@@ -26,6 +28,8 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     "Rakefile",
+     "generators/devise_facebook_connectable/devise_facebook_connectable_generator.rb",
+     "generators/devise_facebook_connectable/templates/devise.facebook_connectable.js",
      "lib/devise_facebook_connectable.rb",
      "lib/devise_facebook_connectable/controller_filters.rb",
      "lib/devise_facebook_connectable/locales/en.yml",
@@ -48,16 +52,16 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activesupport>, [">= 2.3.0"])
-      s.add_runtime_dependency(%q<devise>, [">= 0.7.0"])
+      s.add_runtime_dependency(%q<devise>, [">= 0.7.1"])
       s.add_runtime_dependency(%q<facebooker>, [">= 1.0.55"])
     else
       s.add_dependency(%q<activesupport>, [">= 2.3.0"])
-      s.add_dependency(%q<devise>, [">= 0.7.0"])
+      s.add_dependency(%q<devise>, [">= 0.7.1"])
       s.add_dependency(%q<facebooker>, [">= 1.0.55"])
     end
   else
     s.add_dependency(%q<activesupport>, [">= 2.3.0"])
-    s.add_dependency(%q<devise>, [">= 0.7.0"])
+    s.add_dependency(%q<devise>, [">= 0.7.1"])
     s.add_dependency(%q<facebooker>, [">= 1.0.55"])
   end
 end

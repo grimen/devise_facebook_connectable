@@ -23,11 +23,11 @@ begin
     
     gemspec.require_paths = %w{lib}
     gemspec.files = SUPPORT_FILES << %w(Rakefile) <<
-      Dir.glob(File.join(*%w[{assets,lib} ** *]).to_s)
+      Dir.glob(File.join(*%w[{generators,lib} ** *]).to_s)
     gemspec.extra_rdoc_files = SUPPORT_FILES
     
     gemspec.add_dependency 'activesupport',   '>= 2.3.0'
-    gemspec.add_dependency 'devise',          '>= 0.7.0'
+    gemspec.add_dependency 'devise',          '>= 0.7.1'
     gemspec.add_dependency 'facebooker',      '>= 1.0.55'
   end
   Jeweler::GemcutterTasks.new

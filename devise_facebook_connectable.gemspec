@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
   s.email = %q{grimen@gmail.com}
   s.extra_rdoc_files = [
     "Rakefile",
-     "assets/javascripts/facebook_connect_helper.js",
      "lib/devise_facebook_connectable.rb",
      "lib/devise_facebook_connectable/controller_filters.rb",
      "lib/devise_facebook_connectable/locales/en.yml",
@@ -27,7 +26,6 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     "Rakefile",
-     "assets/javascripts/facebook_connect_helper.js",
      "lib/devise_facebook_connectable.rb",
      "lib/devise_facebook_connectable/controller_filters.rb",
      "lib/devise_facebook_connectable/locales/en.yml",

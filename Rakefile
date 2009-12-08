@@ -1,7 +1,6 @@
 # encoding: utf-8
 require 'rubygems'
 require 'rake'
-require 'rake/testtask'
 require 'rake/rdoctask'
 
 NAME = "devise_facebook_connectable"
@@ -25,15 +24,16 @@ begin
     gemspec.require_paths = %w{lib}
     gemspec.files = SUPPORT_FILES << %w(Rakefile) <<
       Dir.glob(File.join(*%w[{assets,lib} ** *]).to_s)
-    gemspec.executables = %w[]
     gemspec.extra_rdoc_files = SUPPORT_FILES
     
-    #gemspec.add_dependency 'activesupport',   '>= 2.3.0'
-    #gemspec.add_dependency 'devise',          '>= 0.5.0'
-    #gemspec.add_dependency 'facebooker',      '>= 1.0.55'
+    gemspec.add_dependency 'activesupport',   '>= 2.3.0'
+    gemspec.add_dependency 'devise',          '>= 0.7.0'
+    gemspec.add_dependency 'facebooker',      '>= 1.0.55'
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
-  puts "Jeweler - or one of its dependencies - is not available. Install it with: sudo gem install jeweler -s http://gemcutter.org"
+  puts "Jeweler - or one of its dependencies - is not available. " <<
+        "Install it with: sudo gem install jeweler -s http://gemcutter.org"
 end
 
 desc %Q{Generate documentation for "#{NAME}".}

@@ -19,17 +19,20 @@ module Devise
       # Authenticate user with Facebook Connect.
       #
       def authenticate!
+        klass = mapping.to
         begin
           facebook_session = session[:facebook_session]
-          user = mapping.to.facebook_connect(:uid => facebook_session.user.uid)
+          #puts facebook_session_key = facebook_session.session_key
+          facebook_user = facebook_session.user
+          user = klass.facebook_connect(:uid => facebook_session.user.uid)
 
           if user.present?
             success!(user)
           else
-            if mapping.to.facebook_skip_create?
+            if klass.facebook_skip_create?
               fail!(:facebook_invalid)
             else
-              user = mapping.to.new do |u|
+              user = returning(klass.new) do |u|
                 u.store_facebook_credentials!(
                     :session_key => facebook_session.session_key,
                     :uid => facebook_session.user.uid,
@@ -46,7 +49,9 @@ module Devise
               end
             end
           end
-        rescue ::Facebooker::Session::SessionExpired
+        #rescue ::Facebooker::Session::SessionExpired
+          #clear_fb_cookies!
+          #clear_facebook_session_information
           # TODO: Should maybe be handled?
           fail!(:facebook_session_expired)
         end

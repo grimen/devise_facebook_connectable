@@ -12,9 +12,9 @@ h2. What is Devise Facebook Connect?
 
 h2. Dependencies
 
-For now...
+You'll need:
 
-* "grimen/devise":http://github.com/grimen/devise - Slightly altered version to make Devise more embracing for extensions.
+* "devise":http://github.com/plataformatec/devise
 * "facebooker":http://github.com/mmangino/facebooker - Facebook API integration.
 
 h2. Installation
@@ -251,7 +251,6 @@ h2. References
 h2. TODO / Known Issues
 
 * *Expired sessions* happens quite often right now. @before_facebook_connect@-hook fails. =/ Highest priority right now.
-* *Depend on Devise master* instead of my own hacked version.
 * *Specs* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
 * *Facebook Connect view generator* would be neat.
 

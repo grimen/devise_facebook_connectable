@@ -44,11 +44,22 @@ end
 #
 I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), *%w[devise_facebook_connectable locales en.yml]))
 
-# Add +facebook_connectable+ to default serializers and strategies.
+# Add +:facebook_connectable+ serializers and strategies to defaults.
 #
 Devise.setup do |config|
   config.warden do |manager|
     manager.default_strategies.unshift :facebook_connectable
     manager.default_serializers.unshift :facebook_connectable
   end
+end
+
+# Override to get Devise to get that SessionsController should be used for both
+# :facebook_connectable and :authenticatable. Controller-logic is the same.
+#
+Devise::Mapping.class_eval do
+
+  def allows?(controller)
+    (self.for & [Devise::CONTROLLERS[controller.to_sym], :facebook_connectable].flatten).present?
+  end
+
 end

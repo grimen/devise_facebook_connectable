@@ -22,8 +22,6 @@ module Devise
         klass = mapping.to
         begin
           facebook_session = session[:facebook_session]
-          #puts facebook_session_key = facebook_session.session_key
-          facebook_user = facebook_session.user
           user = klass.facebook_connect(:uid => facebook_session.user.uid)
 
           if user.present?
@@ -49,11 +47,9 @@ module Devise
               end
             end
           end
-        #rescue ::Facebooker::Session::SessionExpired
-          #clear_fb_cookies!
-          #clear_facebook_session_information
-          # TODO: Should maybe be handled?
-          fail!(:facebook_session_expired)
+        # Now handled in the controller.
+        # rescue ::Facebooker::Session::SessionExpired
+          # fail!(:facebook_session_expired)
         end
       end
 

@@ -64,9 +64,9 @@ module Devise
         content_tag(:div, :class => 'fb_connect_login_link') do
           facebook_connect_form(resource, options.slice(:method)) <<
           if options[:button]
-            fb_login_button('fb_connect_login();', options)
+            fb_login_button('devise.facebook_connectable.login();', options)
           else
-            fb_logout_link(options[:label], 'fb_connect_custom_login();')
+            fb_logout_link(options[:label], 'devise.facebook_connectable.custom_login();')
           end
         end
       end
@@ -88,7 +88,7 @@ module Devise
         content_tag(:div, :class => 'fb_connect_logout_link') do
           facebook_connect_form(options.delete(:for), :logout => true, :method => :get) <<
           if options[:button]
-            fb_login_button('fb_connect_logout();', options.merge(:autologoutlink => true))
+            fb_login_button('devise.facebook_connectable.logout();', options.merge(:autologoutlink => true))
           else
             fb_logout_link(options[:label], destroy_session_path(:user))
           end

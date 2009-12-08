@@ -44,7 +44,11 @@ end
 #
 I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), *%w[devise_facebook_connectable locales en.yml]))
 
-# Ugly hack, but needed now.
+# Add +facebook_connectable+ to default serializers and strategies.
 #
-Devise::STRATEGIES.unshift :facebook_connectable
-Devise::SERIALIZERS.unshift :facebook_connectable
+Devise.setup do |config|
+  config.warden do |manager|
+    manager.default_strategies.unshift :facebook_connectable
+    manager.default_serializers.unshift :facebook_connectable
+  end
+end

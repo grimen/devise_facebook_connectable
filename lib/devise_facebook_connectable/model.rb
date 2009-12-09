@@ -106,11 +106,12 @@ module Devise
         # For more info:
         #   http://facebooker.pjkh.com/user/populate
         #
-        def before_facebook_connect(facebook_session)
-          # Default: Do nothing.
+        def on_before_facebook_connect(fb_session)
+          self.send(:before_facebook_connect, fb_session) rescue nil
         end
-        alias :before_connect :before_facebook_connect
 
+        # Optional: Store session key.
+        #
         def store_session(using_session_key)
           if self.session_key != using_session_key
             self.update_attribute(:facebook_session_key, using_session_key)

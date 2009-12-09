@@ -213,6 +213,47 @@ In @app/views/layouts/application.html.*@, something like:
   <%= facebook_link :for => :user %>
 </pre>
 
+*Model:*
+
+...if you want to fetch and store any data from Facebook upon connect (account creation):
+
+NOTE: This one _should_ work, but right now not stable because of @Facebooker::Session::SessionExpired@ gets raised all the time. >=(
+
+<pre>
+  class User < ActiveRecord::Base
+    devise :facebook_connectable
+    
+    # Optional: Additional modules here.
+    
+    # Populate user info upon creation.
+    #
+    def before_facebook_connect(fb_session)
+      # Just fetch what we really need from Facebook...
+      fb_session.user.populate(:locale, :current_location, :username, :name, :first_name, :last_name, 
+                                :birthday_date, :sex, :city, :state, :country)
+                                
+      self.locale             = my_fancy_locale_parser(fb_session.user.locale)
+      self.time_zone          = fb_session.user.current_location.try(:city)
+      self.country            = fb_session.user.current_location.try(:country)
+      
+      self.username           = fb_session.user.username
+      
+      self.profile.real_name  = fb_session.user.name
+      self.profile.first_name = fb_session.user.first_name
+      self.profile.last_name  = fb_session.user.last_name
+      self.profile.birthdate  = fb_session.user.birthday_date.try(:to_date)
+      self.profile.gender     = my_fancy_gender_parser(fb_session.user.sex)
+      
+      self.profile.city       = fb_session.user.hometown_location.try(:city)
+      self.profile.zip_code   = fb_session.user.hometown_location.try(:state)
+      self.profile.country    = fb_session.user.hometown_location.try(:country)
+      
+      # etc...
+    end
+    
+  end
+</pre>
+
 *DONE!*
 
 <pre>
@@ -251,7 +292,7 @@ h2. References
 
 h2. TODO / Known Issues
 
-* *Expired sessions* happens quite often right now. @before_facebook_connect@-hook fails. =/ Highest priority right now.
+* *Expired sessions* should be handled more seamless. before_facebook_connect-hook dont' work very well @facebook.users.getInfo (0) Facebooker::Session::SessionExpired: Session key invalid or no longer valid@. =(
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).
 * *Specs/Features* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
 * *Facebook Connect view generator* maybe?

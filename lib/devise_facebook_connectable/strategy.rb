@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'facebooker'
 
 module Devise
   module Strategies
@@ -13,7 +14,7 @@ module Devise
       # Without a Facebook session authentication cannot proceed.
       #
       def valid?
-        session[:facebook_session].present?
+        ::Facebooker::Session.current.present?
       end
 
       # Authenticate user with Facebook Connect.
@@ -21,11 +22,8 @@ module Devise
       def authenticate!
         klass = mapping.to
         begin
-          facebook_session = session[:facebook_session]
+          facebook_session = ::Facebooker::Session.current # session[:facebook_session]
           facebook_user = facebook_session.user
-
-          # To avoid SessionExpired error will be raised.
-          # facebook_user.populate(:uid, :proxied_email)
 
           user = klass.facebook_connect(:uid => facebook_user.uid)
 
@@ -39,10 +37,8 @@ module Devise
                 u.store_facebook_credentials!(
                     :session_key => facebook_session.session_key,
                     :uid => facebook_user.uid
-                    # Cause expired session problems =/
-                    #:email => facebook_user.proxied_email
                   )
-                u.before_connect(facebook_session)
+                u.on_before_facebook_connect(facebook_session)
               end
 
               begin

@@ -8,17 +8,25 @@ module Devise
 
         def self.included(klass)
           klass.class_eval do
+            before_filter :expired_session_hack
             before_filter :set_facebook_session
-            helper_method :facebook_session # session[:facebook_session]
             rescue_from ::Facebooker::Session::SessionExpired, :with => :facebook_session_expired
+
+            helper_method :facebook_session
+
+            # Required sprinkle of magic to avoid +Facebooker::Session::ExpiredSession+.
+            #
+            def expired_session_hack
+              clear_facebook_session_information
+            end
 
             # Handle expired Facebook sessions automatically.
             #
             def facebook_session_expired
-              clear_fb_cookies!
-              clear_facebook_session_information
-              redirect_to request.request_uri #root_url # TODO: Maybe a bad assumption? Maybe just re-load current page?
+              reset_session
+              redirect_to root_url
             end
+
           end
         end
 

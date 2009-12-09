@@ -249,8 +249,8 @@ h2. TODO / Known Issues
 
 * *Expired sessions* happens quite often right now. @before_facebook_connect@-hook fails. =/ Highest priority right now.
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).
-* *Specs* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
-* *Facebook Connect view generator* would be neat, or even generate the Facebooker stuff as well?
+* *Specs/Features* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
+* *Facebook Connect view generator* maybe?
 
 h2. License
 

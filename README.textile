@@ -58,22 +58,17 @@ h2. Setup
 
 See "Devise":http://github.com/grimen/devise documentation for more info on available generators to get started smoothly.
 
-*Facebooker: Setup*
+*Facebook Connectable + Facebooker: Setup*
 
-...if you haven't done this already.
-
-<pre>
-  $ ./script/generate xd_receiver
-</pre>
-
-...and create a @config/facebooker.yml@ (see *Configuration* below for more details).
-
-*Facebook Connectable: Setup*
-
-Installs the required Javascripts...
+Installs the Facebooker stuff + required Facebook Connect javascript helpers...
 
 <pre>
   $ ./script/generate devise_facebook_connectable
+    dependency  xd_receiver
+        create    public/xd_receiver.html
+        create    public/xd_receiver_ssl.html
+        create  config/facebooker.yml
+        create  public/javascripts/devise.facebook_connectable.js
 </pre>
 
 *Facebook Connectable: Migration*
@@ -108,7 +103,7 @@ h2. Configuration
 
 *Create a Facebook app*
 
-..if you haven't already: *"Create Facebook App":http://facebook.com/developers/createapp.php*
+..if you haven't already: *"Create Facebook Application":http://facebook.com/developers/createapp.php*
 
 *@config/facebooker.yml@*
 

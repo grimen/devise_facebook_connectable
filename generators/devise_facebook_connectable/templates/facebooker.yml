@@ -1,0 +1,28 @@
+defaults: &defaults
+    api_key: YOUR_APP_API_KEY
+    secret_key: YOUR_APP_SECRET_KEY
+    canvas_page_name: YOUR_APP_CANVAS_NAME
+    callback_url: http://localhost:3000 # for testing - depends on your Facebook App settings though.
+    pretty_errors: true
+    set_asset_host_to_callback_url: false
+    tunnel:
+      public_host_username: 
+      public_host: 
+      public_port: 4007
+      local_port: 3000
+      
+  development:
+    <<: *defaults
+    
+  test: &test
+    <<: *defaults
+    
+  cucumber:
+    <<: *test
+    
+  production: &production
+    <<: *defaults
+    
+  staging:
+    <<: *production
+    

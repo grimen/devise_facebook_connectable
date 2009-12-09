@@ -221,6 +221,10 @@ In @app/views/layouts/application.html.*@, something like:
 
 *Note:* If you experience any issues with connecting and/or signing in/out now, then I simply must have forgot something in these instructions. Please file a GitHub-issue in such case! =)
 
+h2. Documentation (RDoc)
+
+"Rdoc.info/devise_facebook_connectable":http://rdoc.info/projects/grimen/devise_facebook_connectable
+
 h2. Important
 
 Stuff that you need to be aware of:

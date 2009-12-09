@@ -217,8 +217,6 @@ In @app/views/layouts/application.html.*@, something like:
 
 ...if you want to fetch and store any data from Facebook upon connect (account creation):
 
-NOTE: This one _should_ work, but right now not stable because of @Facebooker::Session::SessionExpired@ gets raised all the time. >=(
-
 <pre>
   class User < ActiveRecord::Base
     devise :facebook_connectable
@@ -292,7 +290,7 @@ h2. References
 
 h2. TODO / Known Issues
 
-* *Expired sessions* should be handled more seamless. before_facebook_connect-hook dont' work very well @facebook.users.getInfo (0) Facebooker::Session::SessionExpired: Session key invalid or no longer valid@. =(
+* *Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).
 * *Specs/Features* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
 * *Facebook Connect view generator* maybe?

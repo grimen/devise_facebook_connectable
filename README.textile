@@ -14,8 +14,8 @@ h2. Dependencies
 
 You'll need:
 
-* "devise":http://github.com/plataformatec/devise
-* "facebooker":http://github.com/mmangino/facebooker - Facebook API integration.
+* "devise":http://github.com/plataformatec/devise for authentication.
+* "facebooker":http://github.com/mmangino/facebooker for Facebook API integration.
 
 h2. Installation
 
@@ -108,7 +108,7 @@ h2. Configuration
 
 *Create a Facebook app*
 
-..if you haven't already: "Create Facebook App":http://facebook.com/developers/createapp.php
+..if you haven't already: *"Create Facebook App":http://facebook.com/developers/createapp.php*
 
 *@config/facebooker.yml@*
 
@@ -152,11 +152,13 @@ Connect/login/logout link labels, and Flash error messages can be set using I18n
   en:
     devise:
       sessions:
-        facebook_invalid: "Could not login. Invalid account."
-        facebook_session_expired: "Could not login. Facebook Connect session expired."
-        facebook_login: "Connect"
-        facebook_logout: "Logout"
+        facebook_invalid: "Could not sign in. Invalid account."
+        facebook_session_expired: "Could not sign in. Facebook Connect session expired."
+        facebook_login: "Sign in"
+        facebook_logout: "Sign out"
 </pre>
+
+Note: The usage of @:facebook_login@/@:facebook_login@ depends on configration, e.g. not used for the traditional and default Facebook Connect button.
 
 h2. Usage
 
@@ -246,14 +248,14 @@ h2. References
 
 *Similar projects:*
 
-* "authlogic_facebook_connect":http://github.com/kalasjocke/authlogic_facebook_connect by "Joakim Ekberg":http://github.com/kalasjocke
+* "authlogic_facebook_connect":http://github.com/kalasjocke/authlogic_facebook_connect - Facebook Connect for "Authlogic":http://github.com/binarylogic/authlogic by "Joakim Ekberg":http://github.com/kalasjocke
 
 h2. TODO / Known Issues
 
 * *Expired sessions* happens quite often right now. @before_facebook_connect@-hook fails. =/ Highest priority right now.
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).
 * *Specs* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
-* *Facebook Connect view generator* would be neat.
+* *Facebook Connect view generator* would be neat, or even generate the Facebooker stuff as well?
 
 h2. License
 

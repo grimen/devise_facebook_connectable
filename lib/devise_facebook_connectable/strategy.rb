@@ -23,6 +23,10 @@ module Devise
         begin
           facebook_session = session[:facebook_session]
           facebook_user = facebook_session.user
+
+          # To avoid SessionExpired error will be raised.
+          # facebook_user.populate(:uid, :proxied_email)
+
           user = klass.facebook_connect(:uid => facebook_user.uid)
 
           if user.present?
@@ -34,8 +38,9 @@ module Devise
               user = returning(klass.new) do |u|
                 u.store_facebook_credentials!(
                     :session_key => facebook_session.session_key,
-                    :uid => facebook_user.uid,
-                    :email => facebook_user.proxied_email
+                    :uid => facebook_user.uid
+                    # Cause expired session problems =/
+                    #:email => facebook_user.proxied_email
                   )
                 u.before_connect(facebook_session)
               end
@@ -48,9 +53,9 @@ module Devise
               end
             end
           end
-        # Now handled in the controller.
+        # NOTE: Handled in the controller.
         # rescue ::Facebooker::Session::SessionExpired
-          # fail!(:facebook_session_expired)
+        #   fail!(:facebook_session_expired)
         end
       end
 

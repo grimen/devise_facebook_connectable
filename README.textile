@@ -1,4 +1,4 @@
-h1. DEVISE / FACEBOOK CONNECTABLE ~ concept version ~
+h1. DEVISE / FACEBOOK CONNECTABLE
 
 _Devise << Facebook Connect_
 

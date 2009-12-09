@@ -5,6 +5,7 @@ require 'devise_facebook_connectable/serializer'
 module Devise
   module FacebookConnectable
     module Model
+
       # Facebook Connectable Module, responsible for validating authenticity of a 
       # user and storing credentials while signing in using their Facebook account.
       #
@@ -27,27 +28,18 @@ module Devise
       #
       module FacebookConnectable
 
-        DEFAULT_FACEBOOK_UID_FIELD = :facebook_uid
-        DEFAULT_FACEBOOK_SESSION_KEY_FIELD = :facebook_session_key
-
         def self.included(base)
           base.class_eval do
             extend ClassMethods
             extend ::Devise::Models::SessionSerializer
-
-            cattr_accessor :facebook_uid_field, :facebook_session_key_field, :facebook_skip_create
           end
         end
 
         # Store Facebook Connect account/session credentials.
         #
         def store_facebook_credentials!(attributes = {})
-          # FIXME: Don't work...nil for some reason.
-          # self.send(:"#{self.class.facebook_uid_field}=", attributes[:uid])
-          # self.send(:"#{self.class.facebook_session_key_field}=", attributes[:session_key])
-
-          self.send(:"#{DEFAULT_FACEBOOK_UID_FIELD}=", attributes[:uid])
-          self.send(:"#{DEFAULT_FACEBOOK_SESSION_KEY_FIELD}=", attributes[:session_key])
+          self.send(:"#{self.class.facebook_uid_field}=", attributes[:uid])
+          self.send(:"#{self.class.facebook_session_key_field}=", attributes[:session_key])
 
           # Only populate +email+ field if it's available (say, if +authenticable+ module is used).
           self.email = attributes[:email] || '' if self.respond_to?(:email)
@@ -114,7 +106,7 @@ module Devise
         #
         def store_session(using_session_key)
           if self.session_key != using_session_key
-            self.update_attribute(:facebook_session_key, using_session_key)
+            self.update_attribute(self.send(:"#{self.class.facebook_session_key_field}"), using_session_key)
           end
         end
 
@@ -122,7 +114,10 @@ module Devise
         #
         def new_facebook_session
           returning(::Facebooker::Session.create) do |new_session|
-            new_session.secure_with!(self.facebook_session_key, self.facebook_uid, 1.hour.from_now)
+            new_session.secure_with!(self.send(:"#{self.class.facebook_session_key_field}"),
+                self.send(:"#{self.class.facebook_uid_field}"),
+                1.hour.from_now
+              )
             ::Facebooker::Session.current = new_session
           end
         end
@@ -136,25 +131,26 @@ module Devise
 
         module ClassMethods
 
+          # Configuration params accessible within +Devise.setup+ procedure (in initalizer).
+          #
+          # Example:
+          #
+          #   Devise.setup do |config|
+          #     config.facebook_uid_field = :facebook_uid
+          #     config.facebook_session_key_field = :facebook_session_key
+          #     config.facebook_skip_create = false
+          #   end
+          #
+          ::Devise::Models.config(self,
+              :facebook_uid_field,
+              :facebook_session_key_field,
+              :facebook_skip_create
+            )
+
           # Alias don't work for some reason, so...a more Ruby-ish alias
           # for +facebook_skip_create+.
-          #
           def facebook_skip_create?
             self.facebook_skip_create
-          end
-
-          # Specifies the name of the database column name used for storing
-          # the user Facebook UID.
-          #
-          def facebook_uid_field
-            @@facebook_uid_field ||= DEFAULT_FACEBOOK_UID_FIELD
-          end
-
-          # Specifies the name of the database column name used for storing
-          # the user Facebook session key.
-          #
-          def facebook_session_key_field
-            @@facebook_session_key_field ||= DEFAULT_FACEBOOK_SESSION_KEY_FIELD
           end
 
           # Authenticate using a Facebook UID.
@@ -188,14 +184,6 @@ module Devise
             def valid_for_facebook_connect(resource, attributes)
               true
             end
-
-          # Configuration params accessible within +Devise.setup+ procedure (in initalizer).
-          #
-          ::Devise::Models.config(self,
-              :facebook_uid_field,
-              :facebook_session_key_field,
-              :facebook_skip_create
-            )
 
         end
 

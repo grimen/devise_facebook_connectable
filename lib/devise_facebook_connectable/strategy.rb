@@ -50,8 +50,8 @@ module Devise
             end
           end
         # NOTE: Handled in the controller.
-        # rescue ::Facebooker::Session::SessionExpired
-        #   fail!(:facebook_session_expired)
+        rescue # ::Facebooker::Session::SessionExpired
+          fail!(:facebook_invalid)
         end
       end
 

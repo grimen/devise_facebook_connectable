@@ -260,6 +260,20 @@ In @app/views/layouts/application.html.*@, something like:
 
 *Note:* If you experience any issues with connecting and/or signing in/out now, then I simply must have forgot something in these instructions. Please file a GitHub-issue in such case! =)
 
+h2. Advanced Configuration
+
+In initializer @config/initializers/devise.rb@:
+
+<pre>
+  Devise.setup do |config|
+    # ...
+    config.facebook_uid_field = :facebook_uid
+    config.facebook_session_key_field = :facebook_session_key
+    config.facebook_skip_create = false
+    # ...
+  end
+</pre>
+
 h2. Documentation (RDoc)
 
 "Rdoc.info/devise_facebook_connectable":http://rdoc.info/projects/grimen/devise_facebook_connectable

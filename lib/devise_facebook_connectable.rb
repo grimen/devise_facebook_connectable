@@ -22,22 +22,22 @@ require 'devise_facebook_connectable/routes'
 require 'devise_facebook_connectable/view_helpers'
 
 module Devise
-  module FacebookConnectable
-    
-    extend self
-    
-    mattr_accessor  :verbose
-    
-    # Logging helper: Internal debug-logging for the plugin.
-    #
-    def log(message, level = :info)
-      return unless @@verbose
-      level = :info if level.blank?
-      @@logger ||= ::Logger.new(::STDOUT)
-      @@logger.send(level.to_sym, "[devise/facebook_connectable:]  #{level.to_s.upcase}  #{message}")
-    end
-    
-  end
+  # Specifies the name of the database column name used for storing
+  # the user Facebook UID. Useful if this info should be saved in a
+  # generic column if different authentication solutions are used.
+  mattr_accessor :facebook_uid_field
+  @@facebook_uid_field = :facebook_uid
+  
+  # Specifies the name of the database column name used for storing
+  # the user Facebook session key. Useful if this info should be saved in a
+  # generic column if different authentication solutions are used.
+  mattr_accessor :facebook_session_key_field
+  @@facebook_session_key_field = :facebook_session_key
+  
+  # Specifies if account should be created if no account exists for
+  # a specified Facebook UID or not.
+  mattr_accessor :facebook_skip_create
+  @@facebook_skip_create = false
 end
 
 # Load core I18n locales: en
@@ -54,9 +54,7 @@ Devise::SERIALIZERS.unshift :facebook_connectable
 # :facebook_connectable and :authenticatable. Controller-logic is the same.
 #
 Devise::Mapping.class_eval do
-
   def allows?(controller)
     (self.for & [Devise::CONTROLLERS[controller.to_sym], :facebook_connectable].flatten).present?
   end
-
 end

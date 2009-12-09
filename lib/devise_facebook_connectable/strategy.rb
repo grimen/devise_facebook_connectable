@@ -22,7 +22,8 @@ module Devise
         klass = mapping.to
         begin
           facebook_session = session[:facebook_session]
-          user = klass.facebook_connect(:uid => facebook_session.user.uid)
+          facebook_user = facebook_session.user
+          user = klass.facebook_connect(:uid => facebook_user.uid)
 
           if user.present?
             success!(user)
@@ -33,8 +34,8 @@ module Devise
               user = returning(klass.new) do |u|
                 u.store_facebook_credentials!(
                     :session_key => facebook_session.session_key,
-                    :uid => facebook_session.user.uid,
-                    :email => facebook_session.user.proxied_email
+                    :uid => facebook_user.uid,
+                    :email => facebook_user.proxied_email
                   )
                 u.before_connect(facebook_session)
               end

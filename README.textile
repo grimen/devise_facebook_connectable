@@ -86,7 +86,7 @@ Note: The @--api@ and @--secret@ arguments only makes sense if you already got F
 ...and indexes (optional):
 
 <pre>
-  add_index :users, :facebook_uid
+  add_index :users, :facebook_uid, :unique => true
 </pre>
 
 ...and then don't forget: @$ rake db:migrate@.

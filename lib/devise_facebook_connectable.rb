@@ -46,28 +46,7 @@ I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), *%w[de
 
 # Add +:facebook_connectable+ serializers and strategies to defaults.
 #
+Devise::ALL.unshift :facebook_connectable
 Devise::STRATEGIES.unshift :facebook_connectable
 Devise::SERIALIZERS.unshift :facebook_connectable
 Devise::CONTROLLERS[:sessions].unshift :facebook_connectable
-
-# PATCH:BEGIN: Very temporary one, while awaiting Devise 0.7.2.
-Devise::Models.module_eval do
-  def devise(*modules)
-    raise "You need to give at least one Devise module" if modules.empty?
-    
-    options  = modules.extract_options!
-    modules  = Devise.all if modules.include?(:all)
-    modules -= Array(options.delete(:except))
-    # PATCH: REMOVED: modules  = Devise::ALL & modules
-    
-    Devise.orm_class.included_modules_hook(self, modules) do
-      modules.each do |m|
-        devise_modules << m.to_sym
-        include Devise::Models.const_get(m.to_s.classify)
-      end
-      
-      options.each { |key, value| send(:"#{key}=", value) }
-    end
-  end
-end
-# PATCH:END

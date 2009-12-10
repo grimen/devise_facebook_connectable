@@ -32,8 +32,6 @@ module Devise
             success!(user)
           else
             if klass.facebook_auto_create_account?
-              fail!(:facebook_invalid)
-            else
               user = returning(klass.new) do |u|
                 u.store_facebook_credentials!(
                     :session_key => facebook_session.session_key,
@@ -48,6 +46,8 @@ module Devise
               rescue
                 fail!(:facebook_invalid)
               end
+            else
+              fail!(:facebook_invalid)
             end
           end
         # NOTE: Handled in the controller.

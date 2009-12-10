@@ -1,13 +1,14 @@
 # encoding: utf-8
-require 'facebooker'
+require 'devise/strategies/base'
+require 'facebooker/session'
 
 module Devise
-  module Strategies
+  module FacebookConnectable
 
     # Default strategy for signing in a user using Facebook Connect (a Facebook account).
     # Redirects to sign_in page if it's not authenticated
     #
-    class FacebookConnectable < ::Warden::Strategies::Base
+    class Strategy < ::Warden::Strategies::Base
 
       include ::Devise::Strategies::Base
 
@@ -59,4 +60,4 @@ module Devise
   end
 end
 
-Warden::Strategies.add(:facebook_connectable, Devise::Strategies::FacebookConnectable)
+Warden::Strategies.add(:facebook_connectable, Devise::FacebookConnectable::Strategy)

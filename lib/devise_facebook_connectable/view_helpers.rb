@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'devise/mapping'
 
 module Devise
   module FacebookConnectable

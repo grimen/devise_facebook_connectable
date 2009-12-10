@@ -1,13 +1,13 @@
 # encoding: utf-8
-require 'facebooker'
+require 'facebooker/session'
 
 module Devise
   module FacebookConnectable
     module Controllers
       module Filters
 
-        def self.included(klass)
-          klass.class_eval do
+        def self.included(base)
+          base.class_eval do
             before_filter :expired_session_hack
             before_filter :set_facebook_session
             rescue_from ::Facebooker::Session::SessionExpired, :with => :facebook_session_expired

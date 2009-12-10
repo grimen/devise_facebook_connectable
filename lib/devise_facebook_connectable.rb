@@ -17,8 +17,8 @@ require 'devise_facebook_connectable/model'
 require 'devise_facebook_connectable/serializer'
 require 'devise_facebook_connectable/strategy'
 require 'devise_facebook_connectable/schema'
-require 'devise_facebook_connectable/controller_filters'
 require 'devise_facebook_connectable/routes'
+require 'devise_facebook_connectable/controller_filters'
 require 'devise_facebook_connectable/view_helpers'
 
 module Devise
@@ -48,13 +48,26 @@ I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), *%w[de
 #
 Devise::STRATEGIES.unshift :facebook_connectable
 Devise::SERIALIZERS.unshift :facebook_connectable
-# Devise::CONTROLLERS.unshift :facebook_connectable # TODO: Wait for Devise 0.7.2 release.
+Devise::CONTROLLERS[:sessions].unshift :facebook_connectable
 
-# Override to get Devise to get that SessionsController should be used for both
-# :facebook_connectable and :authenticatable. Controller-logic is the same.
-#
-Devise::Mapping.class_eval do
-  def allows?(controller)
-    (self.for & [Devise::CONTROLLERS[controller.to_sym], :facebook_connectable].flatten).present?
+# PATCH:BEGIN: Very temporary one, while awaiting Devise 0.7.2.
+Devise::Models.module_eval do
+  def devise(*modules)
+    raise "You need to give at least one Devise module" if modules.empty?
+    
+    options  = modules.extract_options!
+    modules  = Devise.all if modules.include?(:all)
+    modules -= Array(options.delete(:except))
+    # PATCH: REMOVED: modules  = Devise::ALL & modules
+    
+    Devise.orm_class.included_modules_hook(self, modules) do
+      modules.each do |m|
+        devise_modules << m.to_sym
+        include Devise::Models.const_get(m.to_s.classify)
+      end
+      
+      options.each { |key, value| send(:"#{key}=", value) }
+    end
   end
 end
+# PATCH:END

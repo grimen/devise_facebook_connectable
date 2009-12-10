@@ -36,8 +36,8 @@ module Devise
   
   # Specifies if account should be created if no account exists for
   # a specified Facebook UID or not.
-  mattr_accessor :facebook_skip_create
-  @@facebook_skip_create = false
+  mattr_accessor :facebook_auto_create_account
+  @@facebook_auto_create_account = true
 end
 
 # Load core I18n locales: en

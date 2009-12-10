@@ -63,13 +63,15 @@ See "Devise":http://github.com/grimen/devise documentation for more info on avai
 Installs the Facebooker stuff + required Facebook Connect javascript helpers...
 
 <pre>
-  $ ./script/generate devise_facebook_connectable
+  $ ./script/generate devise_facebook_connectable --api API_KEY --secret SECRET_KEY
     dependency  xd_receiver
         create    public/xd_receiver.html
         create    public/xd_receiver_ssl.html
         create  config/facebooker.yml
         create  public/javascripts/devise.facebook_connectable.js
 </pre>
+
+Note: The @--api@ and @--secret@ arguments only makes sense if you already got Facebook application details ready; can be configured later (see *Configuration*).
 
 *Facebook Connectable: Migration*
 
@@ -103,41 +105,30 @@ h2. Configuration
 
 *Create a Facebook app*
 
-..if you haven't already: *"Create Facebook Application":http://facebook.com/developers/createapp.php*
+..if you haven't already:
+
+*"Create Facebook Application":http://facebook.com/developers/createapp.php*
+
+...with settings:
+
+Application settings > Connect > Facebook Connect Settings > Connect URL: @http://localhost:3000@ (for testing purposes)
+Application settings > Advanced > Advanced Settings > Sandbox Mode: @Enabled@
+
+...and for next step, copy-paste: @API Key@ and @Application Secret@
 
 *@config/facebooker.yml@*
 
 ...should look something like this:
 
 <pre>
+  # ...
   defaults: &defaults
     api_key: YOUR_APP_API_KEY
     secret_key: YOUR_APP_SECRET_KEY
-    canvas_page_name: YOUR_APP_CANVAS_NAME
-    callback_url: http://localhost:3000 # for testing - depends on your Facebook App settings though.
-    pretty_errors: true
-    set_asset_host_to_callback_url: false
-    tunnel:
-      public_host_username: 
-      public_host: 
-      public_port: 4007
-      local_port: 3000
-
-  development:
-    <<: *defaults
-
-  test: &test
-    <<: *defaults
-
-  cucumber:
-    <<: *test
-
-  production: &production
-    <<: *defaults
-
-  staging:
-    <<: *production
+  # ...
 </pre>
+
+Note: For Facebook Connect only @api_key@, @secret_key@, and @Connect URL@ (configured in Facebook Application settings manager) are required.
 
 *I18n*
 
@@ -269,7 +260,7 @@ In initializer @config/initializers/devise.rb@:
     # ...
     config.facebook_uid_field = :facebook_uid
     config.facebook_session_key_field = :facebook_session_key
-    config.facebook_skip_create = false
+    config.facebook_auto_create_account = false
     # ...
   end
 </pre>
@@ -299,17 +290,28 @@ h2. References
 * "Facebook Connect Wiki":http://wiki.developers.facebook.com/index.php/Connect/Authorization_Websites
 * "Facebook Connect Javascript SDK":http://developers.facebook.com/docs/?u=facebook.jslib.FB.Connect
 
+*Repos:*
+
+* "Facebook Connect Javascript client":http://github.com/facebook/connect-js
+
 *Similar projects:*
 
 * "authlogic_facebook_connect":http://github.com/kalasjocke/authlogic_facebook_connect - Facebook Connect for "Authlogic":http://github.com/binarylogic/authlogic by "Joakim Ekberg":http://github.com/kalasjocke
+* "authlogic_facebook":http://github.com/GICodeWarrior/authlogic_facebook Facebook Connect for "Authlogic":http://github.com/binarylogic/authlogic by "Rusty Burchfield":http://github.com/GICodeWarrior
 
 h2. TODO / Known Issues
 
+Priority:
+
 * *Ensure no clashes* with Devise core modules is a design goal, but have only tested @Tracking@ so far for no reason.
-* *Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).
 * *Specs/Features* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
+* *Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
+
+Maybe:
+
 * *Facebook Connect view generator* maybe?
+* *Make Facebooker optional* - a more slimmed implementation if Facebooker feels to heavy.
 
 h2. License
 

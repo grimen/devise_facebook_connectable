@@ -1,6 +1,12 @@
 # encoding: utf-8
 require 'devise/mapping'
 
+# Facebook Connect view helpers, i.e. connect/login/logout links, etc.
+#
+# Dependencies:
+#
+#   +devise.facebook_connectable.js+  (is generated with the generator)
+#
 module Devise
   module FacebookConnectable
     module Helpers
@@ -67,7 +73,7 @@ module Devise
           if options[:button]
             fb_login_button('devise.facebook_connectable.login();', options)
           else
-            fb_logout_link(options[:label], 'devise.facebook_connectable.custom_login();')
+            fb_logout_link(options[:label], 'devise.facebook_connectable.login_with_callback();')
           end
         end
       end
@@ -96,12 +102,23 @@ module Devise
         end
       end
 
-      # TODO: Agnostic Facebook Connect disconnect button/link.
+      # Agnostic Facebook Connect disconnect button/link.
       # Disconnects, i.e. deletes, user account. Identical as "Delete my account",
       # but for Facebook Connect (which "un-installs" the app/site for the current user).
       #
+      # References:
+      #
+      #   * http://wiki.developers.facebook.com/index.php/Auth.revokeAuthorization
+      #
       def facebook_disconnect_link(options = {})
         raise "facebook_disconnect_link: Not implemented yet."
+        # TODO: 
+        # options.reverse_merge!(
+        #     :label => ::I18n.t(:facebook_logout, :scope => [:devise, :sessions]),
+        #   )
+        # content_tag(:div, :class => 'fb_connect_disconnect_link') do
+        #   link_to_function(options[:label], 'devise.facebook_connectable.disconnect_with_callback();')
+        # end
       end
 
       protected

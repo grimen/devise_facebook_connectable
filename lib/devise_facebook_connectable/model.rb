@@ -20,8 +20,8 @@ module Devise
       #
       #   facebook_session_key_field: Defines the name of the Facebook session key database attribute/column.
       #
-      #   facebook_skip_create: Speifies if account should automatically be created upon connect
-      #                         if not already exists.
+      #   facebook_auto_create_account: Speifies if account should automatically be created upon connect
+      #                                 if not already exists.
       #
       # Examples:
       #
@@ -140,19 +140,19 @@ module Devise
           #   Devise.setup do |config|
           #     config.facebook_uid_field = :facebook_uid
           #     config.facebook_session_key_field = :facebook_session_key
-          #     config.facebook_skip_create = false
+          #     config.facebook_auto_create_account = true
           #   end
           #
           ::Devise::Models.config(self,
               :facebook_uid_field,
               :facebook_session_key_field,
-              :facebook_skip_create
+              :facebook_auto_create_account
             )
 
           # Alias don't work for some reason, so...a more Ruby-ish alias
-          # for +facebook_skip_create+.
-          def facebook_skip_create?
-            self.facebook_skip_create
+          # for +facebook_auto_create_account+.
+          def facebook_auto_create_account?
+            self.facebook_auto_create_account
           end
 
           # Authenticate using a Facebook UID.

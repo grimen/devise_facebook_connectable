@@ -31,7 +31,7 @@ module Devise
           if user.present?
             success!(user)
           else
-            if klass.facebook_skip_create?
+            if klass.facebook_auto_create_account?
               fail!(:facebook_invalid)
             else
               user = returning(klass.new) do |u|

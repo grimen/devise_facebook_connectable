@@ -251,6 +251,10 @@ In @app/views/layouts/application.html.*@, something like:
 
 *Note:* If you experience any issues with connecting and/or signing in/out now, then I simply must have forgot something in these instructions. Please file a GitHub-issue in such case! =)
 
+h2. Example:
+
+Checkout the "demo":http://devise-facebook-connectable.heroku.com.
+
 h2. Advanced Configuration
 
 In initializer @config/initializers/devise.rb@:

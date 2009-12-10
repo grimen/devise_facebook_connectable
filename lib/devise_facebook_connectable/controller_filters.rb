@@ -18,6 +18,8 @@ module Devise
             #
             def expired_session_hack
               clear_facebook_session_information
+            rescue
+              # rescue in ruby 1.9
             end
 
             # Handle expired Facebook sessions automatically.

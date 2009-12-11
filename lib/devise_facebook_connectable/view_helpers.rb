@@ -68,7 +68,7 @@ module Devise
         # It seems Devise using :get method for session destroy. Not really RESTful?
         # options.merge!(:method => :delete) if options[:autologoutlink] && signed_in?(options[:for])
 
-        content_tag(:span, :class => 'fb_connect_login_link') do
+        content_tag(:div, :class => 'fb_connect_login_link') do
           facebook_connect_form(resource, options.slice(:method)) <<
           if options[:button]
             fb_login_button('devise.facebook_connectable.login();', options)
@@ -92,7 +92,7 @@ module Devise
             :button => false
           )
 
-        content_tag(:span, :class => 'fb_connect_logout_link') do
+        content_tag(:div, :class => 'fb_connect_logout_link') do
           facebook_connect_form(options.delete(:for), :logout => true, :method => :get) <<
           if options[:button]
             fb_login_button('devise.facebook_connectable.logout();', options.merge(:autologoutlink => true))

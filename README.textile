@@ -253,7 +253,7 @@ In @app/views/layouts/application.html.*@, something like:
 
 h2. Example:
 
-Checkout the "demo":http://devise-facebook-connectable.heroku.com.
+Checkout my little *"live example":http://devise-facebook-connectable.heroku.com*.
 
 h2. Advanced Configuration
 

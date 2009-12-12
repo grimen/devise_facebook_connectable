@@ -71,7 +71,7 @@ Installs the Facebooker stuff + required Facebook Connect javascript helpers...
         create  public/javascripts/devise.facebook_connectable.js
 </pre>
 
-Note: The @--api@ and @--secret@ arguments only makes sense if you already got Facebook application details ready; can be configured later (see *Configuration*).
+Note: The @--api@ and @--secret@ arguments only makes sense if you already got Facebook application details ready; can be configured later (see _Configuration_).
 
 *Facebook Connectable: Migration*
 
@@ -148,50 +148,29 @@ Note: The usage of @:facebook_login@/@:facebook_login@ depends on configration, 
 
 h2. Usage
 
-In @app/views/layouts/application.html.*@, something like:
+In @app/views/layouts/application.html.*@, something like (showing only the relevant parts):
 
 <pre>
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   
-  <!-- Required: Include Facebook XMLNS (XML nammespace). See Facebooker - or Facebook API - documentation. -->
+  <!-- REQUIRED: Include Facebook XMLNS (XML namespace). -->
   <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
     <head>
-      <title><%= "Devise << Facebook Connect") %></title>
-      
-      <%= stylesheet_link_tag 'application' %>
-      
-      <!-- Required: Include Facebook Javascript (with current locale). See Facebooker documentation. -->
+      ...
+      <!-- REQUIRED: Include Facebook Javascript (with current locale). See Facebooker documentation. -->
       <%= fb_connect_javascript_tag(:lang => ::I18n.locale) %>
       
-      <!-- Required: Include devise_facebook_connectable Javascripts -->
+      <!-- REQUIRED: Include devise_facebook_connectable Javascripts. -->
       <%= javascript_include_tag :defaults, 'devise.facebook_connectable' %>
+      ...
     </head>
     <body>
-      <!-- Required: Init Facebook Javascript (using jQuery). See Facebooker documentation. -->
+      <!-- REQUIRED: Init Facebook Javascript (using jQuery). See Facebooker documentation. -->
       <%= init_fb_connect :XFBML, :js => :jquery %>
-      
-      <div id="container">
-        <%- flash.each do |name, msg| -%>
-          <%= content_tag :div, msg, :id => "flash_#{name}" %>
-        <%- end -%>
-        
-        <p><%= link_to 'Home', root_path %></p>
-        
-        <% if user_signed_in? -%>
-          <div id="user_login_box" style="float:right">
-            <%= current_user.email %> |
-            <%= link_to 'My info', edit_user_path %> |
-          </div>
-        <% end -%>
-        <div style="clear:both"></div>
-        
-        <%- if show_title? -%>
-          <h1><%=h yield(:title) %></h1>
-        <%- end -%>
-        
-        <%= yield %>
-      </div>
+      ...
+      <%= yield %>
+      ...
     </body>
   </html>
 </pre>

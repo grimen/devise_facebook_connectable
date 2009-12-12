@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class DeviseFacebookConnectableGenerator < Rails::Generator::Base
+class DeviseFacebookConnectableGenerator < Rails::Generator::Base #:nodoc:
 
   default_options :api_key => "YOUR_APP_API_KEY",
                   :secret_key => "YOUR_APP_SECRET_KEY"

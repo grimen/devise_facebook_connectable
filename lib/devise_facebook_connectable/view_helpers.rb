@@ -2,14 +2,15 @@
 require 'devise/mapping'
 # require 'facebooker/rails/helpers/fb_connect'
 
-# Facebook Connect view helpers, i.e. connect/login/logout links, etc.
-#
-# == Dependencies:
-#
-#   +devise.facebook_connectable.js+  (is generated with the generator)
-#
-module Devise
-  module FacebookConnectable
+module Devise #:nodoc:
+  module FacebookConnectable #:nodoc:
+
+    # Facebook Connect view helpers, i.e. connect/login/logout links, etc.
+    #
+    # == Dependencies:
+    #
+    #   * devise.facebook_connectable.js  (is generated with the generator)
+    #
     module Helpers
 
       # == References:
@@ -21,10 +22,10 @@ module Devise
 
       # == Known issues:
       #
-      #   * autologoutlink -  There's no onlogout callback - only onlogin, so it's not straightforward
-      #                       to trigger submit on the logout form to destroy the Warden session.
-      #                       Best solution now is either to hook the even manually on click,
-      #                       or use regular link like propsed here:
+      #   * +autologoutlink+ -  There's no onlogout callback - only onlogin, so it's not straightforward
+      #                         to trigger submit on the logout form to destroy the Warden session.
+      #                         Best solution now is either to hook the even manually on click,
+      #                         or use regular link like propsed here:
       #                         
       #                         http://forum.developers.facebook.com/viewtopic.php?pid=121283
       #

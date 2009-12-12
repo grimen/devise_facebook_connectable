@@ -1,14 +1,15 @@
 # encoding: utf-8
 require 'facebooker/session'
 
-# Controller filters (extensions) needed for Facebook Connect.
-#
-module Devise
-  module FacebookConnectable
-    module Controllers
+module Devise #:nodoc:
+  module FacebookConnectable #:nodoc:
+    module Controllers #:nodoc:
+      
+      # Controller filters (extensions) needed for Facebook Connect.
+      #
       module Filters
 
-        def self.included(base)
+        def self.included(base) #:nodoc:
           base.class_eval do
             before_filter :expired_session_hack
             before_filter :set_facebook_session

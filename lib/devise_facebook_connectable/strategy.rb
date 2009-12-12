@@ -4,8 +4,8 @@ require 'devise/strategies/base'
 
 # Warden strategy Facebook Connect.
 #
-module Devise
-  module FacebookConnectable
+module Devise #:nodoc:
+  module FacebookConnectable #:nodoc:
 
     # Default strategy for signing in a user using Facebook Connect (a Facebook account).
     # Redirects to sign_in page if it's not authenticated

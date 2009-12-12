@@ -4,9 +4,9 @@ require 'devise/models'
 require 'devise_facebook_connectable/strategy'
 require 'devise_facebook_connectable/serializer'
 
-module Devise
-  module FacebookConnectable
-    module Model
+module Devise #:nodoc:
+  module FacebookConnectable #:nodoc:
+    module Model #:nodoc:
 
       # Facebook Connectable Module, responsible for validating authenticity of a 
       # user and storing credentials while signing in using their Facebook account.
@@ -16,11 +16,11 @@ module Devise
       # You can overwrite configuration values by setting in globally in Devise (+Devise.setup+),
       # using devise method, or overwriting the respective instance method.
       #
-      #   facebook_uid_field: Defines the name of the Facebook user UID database attribute/column.
+      # +facebook_uid_field+ - Defines the name of the Facebook user UID database attribute/column.
       #
-      #   facebook_session_key_field: Defines the name of the Facebook session key database attribute/column.
+      # +facebook_session_key_field+ - Defines the name of the Facebook session key database attribute/column.
       #
-      #   facebook_auto_create_account: Speifies if account should automatically be created upon connect
+      # +facebook_auto_create_account+ - Speifies if account should automatically be created upon connect
       #                                 if not already exists.
       #
       # == Examples:

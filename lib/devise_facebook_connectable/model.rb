@@ -141,8 +141,6 @@ module Devise
           #     config.facebook_uid_field = :facebook_uid
           #     config.facebook_session_key_field = :facebook_session_key
           #     config.facebook_auto_create_account = true
-          #     config.facebook_sign_in_to = proc { |resource,scope| resource_path } # TODO
-          #     config.facebook_sign_out_to = root_path
           #   end
           #
           ::Devise::Models.config(self,

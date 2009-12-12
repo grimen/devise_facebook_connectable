@@ -42,11 +42,12 @@ end
 
 # Load core I18n locales: en
 #
-I18n.load_path.unshift File.expand_path(File.join(File.dirname(__FILE__), *%w[devise_facebook_connectable locales en.yml]))
+I18n.load_path.unshift File.join(File.dirname(__FILE__), *%w[devise_facebook_connectable locales en.yml])
 
 # Add +:facebook_connectable+ serializers and strategies to defaults.
 #
 Devise::ALL.unshift :facebook_connectable
 Devise::STRATEGIES.unshift :facebook_connectable
 Devise::SERIALIZERS.unshift :facebook_connectable
-Devise::CONTROLLERS[:sessions].unshift :facebook_connectable
+#Devise::CONTROLLERS[:sessions].unshift :facebook_connectable
+Devise::CONTROLLERS[:facebook_sessions] = [:facebook_connectable]

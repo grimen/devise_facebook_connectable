@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'devise/mapping'
+# require 'facebooker/rails/helpers/fb_connect'
 
 # Facebook Connect view helpers, i.e. connect/login/logout links, etc.
 #
@@ -57,7 +58,7 @@ module Devise
       def facebook_login_or_connect_link(options = {})
         resource = options.delete(:for)
         options.reverse_merge!(
-            :label => ::I18n.t(:facebook_login, :scope => [:devise, :sessions]),
+            :label => ::I18n.t(:login, :scope => [:devise, :facebook_sessions, :actions]),
             :size => :large,
             :length => :long,
             :background => :white,
@@ -85,7 +86,7 @@ module Devise
       #
       def facebook_logout_link(options = {})
         options.reverse_merge!(
-            :label => ::I18n.t(:facebook_logout, :scope => [:devise, :sessions]),
+            :label => ::I18n.t(:logout, :scope => [:devise, :facebook_sessions, :actions]),
             :size => :large,
             :length => :long,
             :background => :white,

@@ -1,7 +1,12 @@
 en:
   devise:
-    sessions:
-      facebook_invalid: "Could not login. Invalid account."
-      facebook_session_expired: "Could not login. Facebook Connect session expired."
-      facebook_login: "Connect"
-      facebook_logout: "Logout"
+    facebook_sessions:
+      signed_in: 'Signed in successfully.'
+      signed_out: 'Signed out successfully.'
+      unauthenticated: 'You need to sign in (connect) before continuing.'
+      # unconfirmed: 'You have to confirm your account before continuing.'
+      invalid: 'Could not login. Invalid account.'
+      timeout: 'Facebook session expired., please sign in again to continue.'
+      actions:
+        login: "Connect"
+        logout: "Logout"

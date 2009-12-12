@@ -26,6 +26,7 @@ module Devise
             #
             def facebook_session_expired
               reset_session
+              set_now_flash_message :failure, :timeout
               redirect_to root_url
             end
 

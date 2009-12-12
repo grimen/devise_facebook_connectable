@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'devise/strategies/base'
-require 'facebooker/session'
+# require 'facebooker/session'
 
 module Devise
   module FacebookConnectable
@@ -44,15 +44,15 @@ module Devise
                 user.save_with_validation(false)
                 success!(user)
               rescue
-                fail!(:facebook_invalid)
+                fail!(:invalid)
               end
             else
-              fail!(:facebook_invalid)
+              fail!(:invalid)
             end
           end
         # NOTE: Handled in the controller.
         rescue # ::Facebooker::Session::SessionExpired
-          fail!(:facebook_invalid)
+          fail!(:timeout)
         end
       end
 

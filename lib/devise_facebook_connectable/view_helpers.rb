@@ -22,7 +22,7 @@ module Devise #:nodoc:
 
       # == Known issues:
       #
-      #   * +autologoutlink+ -  There's no onlogout callback - only onlogin, so it's not straightforward
+      #   * *autologoutlink* -  There's no onlogout callback - only onlogin, so it's not straightforward
       #                         to trigger submit on the logout form to destroy the Warden session.
       #                         Best solution now is either to hook the even manually on click,
       #                         or use regular link like propsed here:

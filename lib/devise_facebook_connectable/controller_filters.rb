@@ -1,6 +1,8 @@
 # encoding: utf-8
 require 'facebooker/session'
 
+# Controller filters (extensions) needed for Facebook Connect.
+#
 module Devise
   module FacebookConnectable
     module Controllers

@@ -2,6 +2,8 @@
 require 'devise/schema'
 require 'devise_facebook_connectable/model'
 
+# Database migration schema for Facebook Connect.
+#
 module Devise
   module FacebookConnectable
     module Schema

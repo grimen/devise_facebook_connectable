@@ -11,7 +11,7 @@ module Devise
       # Facebook Connectable Module, responsible for validating authenticity of a 
       # user and storing credentials while signing in using their Facebook account.
       #
-      # Configuration:
+      # == Configuration:
       #
       # You can overwrite configuration values by setting in globally in Devise (+Devise.setup+),
       # using devise method, or overwriting the respective instance method.
@@ -23,7 +23,7 @@ module Devise
       #   facebook_auto_create_account: Speifies if account should automatically be created upon connect
       #                                 if not already exists.
       #
-      # Examples:
+      # == Examples:
       #
       #    User.facebook_connect(:uid => '123456789')     # returns authenticated user or nil
       #    User.find(1).facebook_connected?               # returns true/false
@@ -60,12 +60,12 @@ module Devise
         end
         alias :is_facebook_connected? :facebook_connected?
 
-        # Hook that gets called before connect (each time). Useful for
+        # Hook that gets called *before* connect (each time). Useful for
         # fetching additional user info (etc.) from Facebook.
         #
         # Default: Do nothing.
         #
-        # Examples:
+        # == Examples:
         #
         #   # Overridden in Facebook Connect:able model, e.g. "User".
         #   #
@@ -97,11 +97,33 @@ module Devise
         #     
         #   end
         #
-        # For more info:
-        #   http://facebooker.pjkh.com/user/populate
+        # == For more info:
         #
-        def on_before_facebook_connect(fb_session)
-          self.send(:before_facebook_connect, fb_session) rescue nil
+        #   * http://facebooker.pjkh.com/user/populate
+        #
+        def on_before_facebook_connect(facebook_session)
+          if self.respond_to?(:before_facebook_connect)
+            self.send(:before_facebook_connect, facebook_session) rescue nil
+          end
+        end
+        
+        # Hook that gets called *after* connect (each time). Useful for
+        # fetching additional user info (etc.) from Facebook.
+        #
+        # Default: Do nothing.
+        #
+        # == Example:
+        #
+        #   # Overridden in Facebook Connect:able model, e.g. "User".
+        #   #
+        #   def after_facebook_connect(fb_session)
+        #     # See "on_before_facebook_connect" example.
+        #   end
+        #
+        def on_after_facebook_connect(facebook_session)
+          if self.respond_to?(:after_facebook_connect)
+            self.send(:after_facebook_connect, facebook_session) rescue nil
+          end
         end
 
         # Optional: Store session key.
@@ -135,7 +157,7 @@ module Devise
 
           # Configuration params accessible within +Devise.setup+ procedure (in initalizer).
           #
-          # Example:
+          # == Example:
           #
           #   Devise.setup do |config|
           #     config.facebook_uid_field = :facebook_uid
@@ -151,6 +173,7 @@ module Devise
 
           # Alias don't work for some reason, so...a more Ruby-ish alias
           # for +facebook_auto_create_account+.
+          #
           def facebook_auto_create_account?
             self.facebook_auto_create_account
           end
@@ -169,7 +192,7 @@ module Devise
             # Overwrite to add customized conditions, create a join, or maybe use a
             # namedscope to filter records while authenticating.
             #
-            # Example:
+            # == Example:
             #
             #   def self.find_for_facebook_connect(conditions = {})
             #     conditions[:active] = true

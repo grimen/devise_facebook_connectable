@@ -3,7 +3,7 @@
 ActionController::Routing::RouteSet::Mapper.class_eval do
 
   protected
-    
+
     # Setup routes for +FacebookSessionsController+.
     #
     def facebook_connectable(routes, mapping)
@@ -13,5 +13,5 @@ ActionController::Routing::RouteSet::Mapper.class_eval do
         session.send(:"destroy_#{mapping.name}_session", mapping.path_names[:sign_out], :action => 'destroy', :conditions => { :method => :get })
       end
     end
-    
+
 end

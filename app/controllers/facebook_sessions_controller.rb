@@ -16,7 +16,7 @@ class FacebookSessionsController < ApplicationController
       redirect_to fbc_after_sign_in_path_for(resource_name) || after_sign_in_path_for
     else
       set_flash_message :failure, warden.message || :invalid
-      redirect_to fbc_after_sign_in_failure_path_for(resource_name) ||  after_sign_in_path_for
+      redirect_to fbc_after_sign_in_failure_path_for(resource_name) || after_sign_in_path_for
     end
   end
 

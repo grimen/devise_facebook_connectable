@@ -2,6 +2,8 @@
 require 'devise/strategies/base'
 # require 'facebooker/session'
 
+# Warden strategy Facebook Connect.
+#
 module Devise
   module FacebookConnectable
 
@@ -42,6 +44,7 @@ module Devise
 
               begin
                 user.save_with_validation(false)
+                user.on_after_facebook_connect(facebook_session)
                 success!(user)
               rescue
                 fail!(:invalid)

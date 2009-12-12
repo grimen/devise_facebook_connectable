@@ -4,7 +4,7 @@ require 'devise/mapping'
 
 # Facebook Connect view helpers, i.e. connect/login/logout links, etc.
 #
-# Dependencies:
+# == Dependencies:
 #
 #   +devise.facebook_connectable.js+  (is generated with the generator)
 #
@@ -12,14 +12,14 @@ module Devise
   module FacebookConnectable
     module Helpers
 
-      # References:
+      # == References:
       #
       #   * http://facebooker.rubyforge.org/
       #   * http://wiki.developers.facebook.com/index.php/Connect/Authorization_Websites
       #   * http://developers.facebook.com/docs/?u=facebook.jslib.FB.Connect
       #
 
-      # Known issues:
+      # == Known issues:
       #
       #   * autologoutlink -  There's no onlogout callback - only onlogin, so it's not straightforward
       #                       to trigger submit on the logout form to destroy the Warden session.
@@ -48,11 +48,11 @@ module Devise
 
       # Agnostic Facebook Connect login/connect button/link.
       #
-      # Case 1: If Facebook account already connected to the app/site, this is same as
+      # *Case 1:* If Facebook account already connected to the app/site, this is same as
       # a traditional "account login" but with the Facebook dialog unless already
       # logged in to Facebook.
       # 
-      # Case 2: If account is not connected to the app/site already;
+      # *Case 2:* If account is not connected to the app/site already;
       # then this is the same as a traditional "create account".
       #
       def facebook_login_or_connect_link(options = {})

@@ -8,14 +8,14 @@ h2. What is Devise?
 
 h2. What is Devise Facebook Connect?
 
-*Simple:* A very straightforward Facebook Connect authentication/linking with the ease of *"Devise":http://github.com/plataformatec/devise* and power of *"Facebooker":http://github.com/mmangino/facebooker*. If I may say it myself: The easiest way to get a Rails app authorized and connected with *"Facebook Connect":http://wiki.developers.facebook.com/index.php/Facebook_Connect*. Authentication in Rails should be straightforward, right? Let's build awesome web-apps instead of re-inventing the authentication!
+*Simple:* A very straightforward *"Facebook Connect":http://wiki.developers.facebook.com/index.php/Facebook_Connect* authentication/linking with the ease of *"Devise":http://github.com/plataformatec/devise* and power of *"Facebooker":http://github.com/mmangino/facebooker*. If I may say it myself: The easiest way to get a Rails app authorized and connected with Facebook Connect. Authentication in Rails should be straightforward, right? Let's build awesome web-apps instead of re-inventing the authentication!
 
 h2. Dependencies
 
 You'll need:
 
-* "devise":http://github.com/plataformatec/devise for authentication, which relies on "warden":http://github.com/hassox/warden/.
-* "facebooker":http://github.com/mmangino/facebooker for Facebook API integration.
+* *"devise":http://github.com/plataformatec/devise* for authentication - based on "warden":http://github.com/hassox/warden/.
+* *"facebooker":http://github.com/mmangino/facebooker* for Facebook API integration.
 
 h2. Installation
 
@@ -290,7 +290,7 @@ Priority:
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).
 * *Specs/Features* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
 * *Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
-* HAML vs ERB clash - that I right now consider as a HAML bug - breaks the view helpers *if both ERB and HAML is used* in the same project. Can be avoided by either using HAML gem/plugin and use HAML views only, and vice-versa. Note: Something with the @form_for@-helper causing this issue.
+* *HAML vs ERB clash* - that I right now consider as a HAML bug - breaks the view helpers *if both ERB and HAML is used* in the same project. Can be avoided by either using HAML gem/plugin and use HAML views only, and vice-versa. Note: Something with the @form_for@-helper causing this issue.
 
 Maybe:
 

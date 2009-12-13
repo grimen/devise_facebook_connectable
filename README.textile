@@ -8,11 +8,13 @@ h2. What is Devise?
 
 h2. What is Devise Facebook Connect?
 
-*Simple:* A very straightforward *"Facebook Connect":http://wiki.developers.facebook.com/index.php/Facebook_Connect* authentication/linking with the ease of *"Devise":http://github.com/plataformatec/devise* and power of *"Facebooker":http://github.com/mmangino/facebooker*. If I may say it myself: The easiest way to get a Rails app authorized and connected with Facebook Connect. Authentication in Rails should be straightforward, right? Let's build awesome web-apps instead of re-inventing the authentication!
+*Simple:*
+
+A very straightforward *"Facebook Connect":http://wiki.developers.facebook.com/index.php/Facebook_Connect* authentication/linking with the ease of *"Devise":http://github.com/plataformatec/devise* and power of *"Facebooker":http://github.com/mmangino/facebooker*. If I may say it myself: The easiest way to get a Rails app authorized and connected with Facebook Connect. Authentication in Rails should be straightforward, right? Let's build awesome web-apps instead of re-inventing the authentication!
 
 h2. Dependencies
 
-You'll need:
+*You'll need:*
 
 * *"devise":http://github.com/plataformatec/devise* for authentication - based on "warden":http://github.com/hassox/warden/.
 * *"facebooker":http://github.com/mmangino/facebooker* for Facebook API integration.

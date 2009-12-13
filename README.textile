@@ -14,7 +14,7 @@ h2. Dependencies
 
 You'll need:
 
-* "devise":http://github.com/plataformatec/devise for authentication.
+* "devise":http://github.com/plataformatec/devise for authentication, which relies on "warden":http://github.com/hassox/warden/.
 * "facebooker":http://github.com/mmangino/facebooker for Facebook API integration.
 
 h2. Installation
@@ -286,10 +286,11 @@ h2. TODO / Known Issues
 
 Priority:
 
-* *Ensure no clashes* with Devise core modules is a design goal, but have only tested @Tracking@ so far for no reason.
+* *Ensure no module clashes* with Devise core modules is a design goal, but have only tested @Tracking@ so far for no reason.
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).
 * *Specs/Features* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Don't have a clue how to spec Facebook Connect stuff though. Would appreciate any help on this.
 * *Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
+* HAML vs ERB clash - that I right now consider as a HAML bug - breaks the view helpers *if both ERB and HAML is used* in the same project. Can be avoided by either using HAML gem/plugin and use HAML views only, and vice-versa. Note: Something with the @form_for@-helper causing this issue.
 
 Maybe:
 

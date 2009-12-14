@@ -289,6 +289,7 @@ h2. TODO / Known Issues
 Priority:
 
 * *Ensure no module clashes* with Devise core modules is a design goal, but have only tested @Tracking@ so far for no reason.
+* *@confirmable@ should be ignored for FBC-created accounts* in case it's enabled (for @authenticatable@ module).
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).
 * *Specs/Features* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Would appreciate any help on this. Looking into using Cucumber + "watircuke":http://github.com/richdownie/watircuke now.
 * *Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.

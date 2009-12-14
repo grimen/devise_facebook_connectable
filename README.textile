@@ -191,7 +191,7 @@ In @app/views/layouts/application.html.*@, something like (showing only the rele
 
 *Model:*
 
-...if you want to fetch and store any data from Facebook upon connect (account creation):
+...if you want to fetch and populate any data from Facebook before connect (account creation), and/or after connect (not saved automatically):
 
 <pre>
   class User < ActiveRecord::Base
@@ -223,7 +223,7 @@ In @app/views/layouts/application.html.*@, something like (showing only the rele
       
     end
     
-    def before_facebook_connect(fb_session)
+    def after_facebook_connect(fb_session)
     
       # ...
       
@@ -296,6 +296,7 @@ h2. TODO / Known Issues
 
 Priority:
 
+* *Make login helper :for option assumed* if only one facebook_connectable reosurce is available in the app.
 * *Ensure no module clashes* with Devise core modules is a design goal, but have only tested @Tracking@ so far for no reason.
 * *@confirmable@ should be ignored for FBC-created accounts* in case it's enabled (for @authenticatable@ module).
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).

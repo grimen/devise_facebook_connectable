@@ -139,11 +139,15 @@ Connect/login/logout link labels, and Flash error messages can be set using I18n
 <pre>
   en:
     devise:
-      sessions:
-        facebook_invalid: "Could not sign in. Invalid account."
-        facebook_session_expired: "Could not sign in. Facebook Connect session expired."
-        facebook_login: "Sign in"
-        facebook_logout: "Sign out"
+      facebook_sessions:
+        signed_in: "Signed in successfully."
+        signed_out: "Signed out successfully."
+        unauthenticated: "You need to sign in (connect) before continuing."
+        invalid: "Could not login. Invalid account."
+        timeout: "Facebook session expired., please sign in again to continue."
+        actions:
+          login: "Connect"
+          logout: "Logout"
 </pre>
 
 Note: The usage of @:facebook_login@/@:facebook_login@ depends on configration, e.g. not used for the traditional and default Facebook Connect button.
@@ -193,11 +197,8 @@ In @app/views/layouts/application.html.*@, something like (showing only the rele
   class User < ActiveRecord::Base
     devise :facebook_connectable
     
-    # Optional: Additional modules here.
-    
-    # Populate user info upon creation.
-    #
     def before_facebook_connect(fb_session)
+      
       # Just fetch what we really need from Facebook...
       fb_session.user.populate(:locale, :current_location, :username, :name, :first_name, :last_name, 
                                 :birthday_date, :sex, :city, :state, :country)
@@ -219,6 +220,13 @@ In @app/views/layouts/application.html.*@, something like (showing only the rele
       self.profile.country    = fb_session.user.hometown_location.try(:country)
       
       # etc...
+      
+    end
+    
+    def before_facebook_connect(fb_session)
+    
+      # ...
+      
     end
     
   end

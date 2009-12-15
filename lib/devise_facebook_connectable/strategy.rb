@@ -4,61 +4,63 @@ require 'devise/strategies/base'
 
 module Devise #:nodoc:
   module FacebookConnectable #:nodoc:
+    module Strategies #:nodoc:
 
-    # Default strategy for signing in a user using Facebook Connect (a Facebook account).
-    # Redirects to sign_in page if it's not authenticated
-    #
-    class Strategy < ::Warden::Strategies::Base
-
-      include ::Devise::Strategies::Base
-
-      # Without a Facebook session authentication cannot proceed.
+      # Default strategy for signing in a user using Facebook Connect (a Facebook account).
+      # Redirects to sign_in page if it's not authenticated
       #
-      def valid?
-        ::Facebooker::Session.current.present?
-      end
+      class FacebookConnectable < ::Warden::Strategies::Base
 
-      # Authenticate user with Facebook Connect.
-      #
-      def authenticate!
-        klass = mapping.to
-        begin
-          facebook_session = ::Facebooker::Session.current # session[:facebook_session]
-          facebook_user = facebook_session.user
+        include ::Devise::Strategies::Base
 
-          user = klass.facebook_connect(:uid => facebook_user.uid)
+        # Without a Facebook session authentication cannot proceed.
+        #
+        def valid?
+          ::Facebooker::Session.current.present?
+        end
 
-          if user.present?
-            success!(user)
-          else
-            if klass.facebook_auto_create_account?
-              user = returning(klass.new) do |u|
-                u.store_facebook_credentials!(
-                    :session_key => facebook_session.session_key,
-                    :uid => facebook_user.uid
-                  )
-                u.on_before_facebook_connect(facebook_session)
-              end
+        # Authenticate user with Facebook Connect.
+        #
+        def authenticate!
+          klass = mapping.to
+          begin
+            facebook_session = ::Facebooker::Session.current # session[:facebook_session]
+            facebook_user = facebook_session.user
 
-              begin
-                user.save_with_validation(false)
-                user.on_after_facebook_connect(facebook_session)
-                success!(user)
-              rescue
+            user = klass.facebook_connect(:uid => facebook_user.uid)
+
+            if user.present?
+              success!(user)
+            else
+              if klass.facebook_auto_create_account?
+                user = returning(klass.new) do |u|
+                  u.store_facebook_credentials!(
+                      :session_key => facebook_session.session_key,
+                      :uid => facebook_user.uid
+                    )
+                  u.on_before_facebook_connect(facebook_session)
+                end
+
+                begin
+                  user.save_with_validation(false)
+                  user.on_after_facebook_connect(facebook_session)
+                  success!(user)
+                rescue
+                  fail!(:invalid)
+                end
+              else
                 fail!(:invalid)
               end
-            else
-              fail!(:invalid)
             end
+          # NOTE: Handled in the controller.
+          rescue # ::Facebooker::Session::SessionExpired
+            fail!(:timeout)
           end
-        # NOTE: Handled in the controller.
-        rescue # ::Facebooker::Session::SessionExpired
-          fail!(:timeout)
         end
-      end
 
+      end
     end
   end
 end
 
-Warden::Strategies.add(:facebook_connectable, Devise::FacebookConnectable::Strategy)
+Warden::Strategies.add(:facebook_connectable, Devise::FacebookConnectable::Strategies::FacebookConnectable)

@@ -50,3 +50,7 @@ Devise::ALL.unshift :facebook_connectable
 Devise::STRATEGIES.unshift :facebook_connectable
 Devise::SERIALIZERS.unshift :facebook_connectable
 Devise::CONTROLLERS[:facebook_sessions] = [:facebook_connectable]
+
+Devise::Models.module_eval do
+  autoload :FacebookConnectable, 'devise_facebook_connectable/model'
+end

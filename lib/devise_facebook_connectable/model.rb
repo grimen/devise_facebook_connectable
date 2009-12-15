@@ -5,8 +5,8 @@ require 'devise_facebook_connectable/strategy'
 require 'devise_facebook_connectable/serializer'
 
 module Devise #:nodoc:
-  module FacebookConnectable #:nodoc:
-    module Model #:nodoc:
+  # module FacebookConnectable #:nodoc:
+    module Models #:nodoc:
 
       # Facebook Connectable Module, responsible for validating authenticity of a 
       # user and storing credentials while signing in using their Facebook account.
@@ -214,9 +214,5 @@ module Devise #:nodoc:
 
       end
     end
-  end
-end
-
-Devise::Models.module_eval do
-  include ::Devise::FacebookConnectable::Model
+  # end
 end

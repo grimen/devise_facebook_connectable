@@ -16,8 +16,12 @@ h2. Dependencies
 
 *You'll need:*
 
-* *"devise":http://github.com/plataformatec/devise* for authentication - based on "warden":http://github.com/hassox/warden/.
+* *"devise 0.7.3+":http://github.com/plataformatec/devise* for authentication - based on "warden":http://github.com/hassox/warden/.
 * *"facebooker":http://github.com/mmangino/facebooker* for Facebook API integration.
+
+*For Ruby 1.9 support:*
+
+* *"rails 2.3.5+":http://github.com/rails/rails* which contains a required Ruby 1.9 patch that Facebooker relies on. See _Important_ for more info.
 
 h2. Installation
 
@@ -134,20 +138,20 @@ Note: For Facebook Connect only @api_key@, @secret_key@, and @Connect URL@ (conf
 
 *I18n*
 
-Connect/login/logout link labels, and Flash error messages can be set using I18n:
+Sign in/out link labels, and Flash error messages can be set using I18n:
 
 <pre>
   en:
     devise:
       sessions:
-        facebook_invalid: "Could not login. Invalid account."
+        facebook_invalid: "Could not sign in. Invalid account."
         facebook_timeout: "Facebook session expired., please sign in again to continue."
         facebook_actions:
-          login: "Sign in"
-          logout: "Sign out"
+          sign_in: "Sign in"
+          sign_out: "Sign out"
 </pre>
 
-Note: The usage of @:facebook_login@/@:facebook_login@ depends on configration, e.g. not used for the traditional and default Facebook Connect button.
+Note: The usage of @:sign_in@/@:sign_out@ depends on configration, e.g. not used for the traditional and default Facebook Connect button.
 
 h2. Usage
 
@@ -180,10 +184,20 @@ In @app/views/layouts/application.html.*@, something like (showing only the rele
 
 *View:*
 
-...add the connect/login/logout link somewhere:
+...add the sign in/out (connect) link somewhere:
 
 <pre>
   <%= facebook_link :for => :user %>
+</pre>
+
+or more explicit, something like:
+
+<pre>
+  <% unless signed_in?(:user) %>
+    <%= facebook_sign_in_link :for => :user %>
+  <% else %>
+    <%= facebook_sign_out_link :for => :user %>
+  <% end %>
 </pre>
 
 *Model:*
@@ -263,8 +277,8 @@ h2. Important
 
 Stuff that you need to be aware of:
 
-* Just to be clear: You need to use the @devise_facebook_connect@-helpers to login/logout, otherwise it won't work.
-* If you login a resource using Facebook Connect (with this extension), you need to logout using the the Facebook Connect logout helpers available. If not you will end up being logged into Facebook but not to the account, and vice-versa. Messy. Would be cool with some kind of polling script that logs the user out of Facebook if the account is signed out - but not really needed now; just a bit of common sense and use the helpers and this will not be an issue.
+* Just to be clear: You need to use the @devise_facebook_connect@-helpers to sign in/out, otherwise it won't work.
+* If you sign in a resource using Facebook Connect (with this extension), you need to sign out using the the Facebook Connect sign out helpers available. If not you will end up being logged into Facebook but not to the account, and vice-versa. Messy. Would be cool with some kind of polling script that logs the user out of Facebook if the account is signed out - but not really needed now; just a bit of common sense and use the helpers and this will not be an issue.
 * For *Ruby 1.9* support you'll need to install Rails 2.3.5 which contains a required Ruby 1.9 patch in ActiveSupport for time-attack-safe string comparisons that Facebooker uses in its session management helpers. Otherwise than that I haven't got any Ruby 1.9-related issues so far.
 
 h2. References
@@ -293,7 +307,7 @@ h2. TODO / Known Issues
 
 Priority:
 
-* *Make login helper :for option assumed* if only one facebook_connectable reosurce is available in the app.
+* *Make sign in helper :for option assumed* if only one facebook_connectable reosurce is available in the app.
 * *Timeoutable* should timeout Facebook sessions as well - configurable.
 * *Ensure no module clashes* with Devise core modules is a design goal, but have only tested @Tracking@ and @Confirmable@ thoroughly so far for.
 * *Specs/Features* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Would appreciate any help on this. Looking into using Cucumber + "watircuke":http://github.com/richdownie/watircuke / "culerity":http://github.com/langalex/culerity.

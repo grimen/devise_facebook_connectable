@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'devise/mapping'
-# require 'facebooker/rails/helpers/fb_connect'
+require 'facebooker/rails/helpers'
 
 module Devise #:nodoc:
   module FacebookConnectable #:nodoc:

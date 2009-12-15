@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'devise/strategies/base'
-# require 'facebooker/session'
+require 'facebooker/session'
 
 module Devise #:nodoc:
   module FacebookConnectable #:nodoc:

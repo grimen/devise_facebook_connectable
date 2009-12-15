@@ -139,10 +139,10 @@ module Devise #:nodoc:
         # Optional: Recreate Facebook session for this account/user.
         #
         def new_facebook_session
+          timeout_in = ::Devise.respond_to?(:timeout_in) ? ::Devise.timeout_in : 1.hour.from_now
           returning(::Facebooker::Session.create) do |new_session|
             new_session.secure_with!(self.send(:"#{self.class.facebook_session_key_field}"),
-                self.send(:"#{self.class.facebook_uid_field}"),
-                1.hour.from_now
+                self.send(:"#{self.class.facebook_uid_field}"), timeout_in
               )
             ::Facebooker::Session.current = new_session
           end

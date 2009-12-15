@@ -14,7 +14,6 @@ rescue
 end
 
 require 'devise_facebook_connectable/model'
-require 'devise_facebook_connectable/serializer'
 require 'devise_facebook_connectable/strategy'
 require 'devise_facebook_connectable/schema'
 require 'devise_facebook_connectable/routes'
@@ -48,7 +47,6 @@ I18n.load_path.unshift File.join(File.dirname(__FILE__), *%w[devise_facebook_con
 #
 Devise::ALL.unshift :facebook_connectable
 Devise::STRATEGIES.unshift :facebook_connectable
-Devise::SERIALIZERS.unshift :facebook_connectable
 Devise::CONTROLLERS[:facebook_sessions] = [:facebook_connectable]
 
 Devise::Models.module_eval do

@@ -52,9 +52,9 @@ module Devise #:nodoc:
                 fail!(:invalid)
               end
             end
-          # NOTE: Handled in the controller.
-          rescue # ::Facebooker::Session::SessionExpired
-            fail!(:timeout)
+          # NOTE: Facebooker::Session::SessionExpired errors handled in the controller.
+          rescue => e
+            fail!(e.message)
           end
         end
 

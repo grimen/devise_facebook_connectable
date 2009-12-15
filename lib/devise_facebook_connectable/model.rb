@@ -1,11 +1,10 @@
 # encoding: utf-8
 require 'devise/models'
-# require 'facebooker/session'
+require 'facebooker/session'
 require 'devise_facebook_connectable/strategy'
-require 'devise_facebook_connectable/serializer'
 
 module Devise #:nodoc:
-  # module FacebookConnectable #:nodoc:
+  #module FacebookConnectable #:nodoc:
     module Models #:nodoc:
 
       # Facebook Connectable Module, responsible for validating authenticity of a 
@@ -33,7 +32,6 @@ module Devise #:nodoc:
         def self.included(base) #:nodoc:
           base.class_eval do
             extend ClassMethods
-            extend ::Devise::Models::SessionSerializer
           end
         end
 
@@ -47,10 +45,13 @@ module Devise #:nodoc:
           self.email = attributes[:email] || '' if self.respond_to?(:email)
 
           # Lazy hack: These database fields are required if +authenticable+/+confirmable+
-          # module(s) is used.
+          # module(s) is used. Could be avoided with :null => true for authenticatable
+          # migration, but keeping this to avoid unnecessary problems.
           self.password_salt = '' if self.respond_to?(:password_salt)
           self.encrypted_password = '' if self.respond_to?(:encrypted_password)
-          self.confirmed_at = ::Time.now if self.respond_to?(:confirmed_at)
+          
+          # Confirm without e-mail - if confirmable module is loaded.
+          self.skip_confirmation! if self.respond_to?(:skip_confirmation!)
         end
 
         # Checks if Facebook Connect:ed.
@@ -214,5 +215,5 @@ module Devise #:nodoc:
 
       end
     end
-  # end
+  #end
 end

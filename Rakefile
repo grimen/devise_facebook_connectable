@@ -27,7 +27,7 @@ begin
     gemspec.extra_rdoc_files = SUPPORT_FILES
     
     gemspec.add_dependency 'activesupport',   '>= 2.3.0'
-    gemspec.add_dependency 'devise',          '>= 0.7.1'
+    gemspec.add_dependency 'devise',          '>= 0.7.2'
     gemspec.add_dependency 'facebooker',      '>= 1.0.55'
   end
   Jeweler::GemcutterTasks.new

@@ -1,9 +1,6 @@
 en:
   devise:
     sessions:
-      facebook_signed_in: 'Signed in successfully.'
-      facebook_signed_out: 'Signed out successfully.'
-      facebook_unauthenticated: 'You need to sign in (connect) before continuing.'
       facebook_invalid: 'Could not login. Invalid account.'
       facebook_timeout: 'Facebook session expired., please sign in again to continue.'
       facebook_actions:

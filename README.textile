@@ -139,15 +139,12 @@ Connect/login/logout link labels, and Flash error messages can be set using I18n
 <pre>
   en:
     devise:
-      facebook_sessions:
-        signed_in: "Signed in successfully."
-        signed_out: "Signed out successfully."
-        unauthenticated: "You need to sign in (connect) before continuing."
-        invalid: "Could not login. Invalid account."
-        timeout: "Facebook session expired., please sign in again to continue."
-        actions:
-          login: "Connect"
-          logout: "Logout"
+      sessions:
+        facebook_invalid: "Could not login. Invalid account."
+        facebook_timeout: "Facebook session expired., please sign in again to continue."
+        facebook_actions:
+          login: "Sign in"
+          logout: "Sign out"
 </pre>
 
 Note: The usage of @:facebook_login@/@:facebook_login@ depends on configration, e.g. not used for the traditional and default Facebook Connect button.

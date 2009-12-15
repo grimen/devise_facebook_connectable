@@ -147,4 +147,4 @@ module Devise #:nodoc:
   end
 end
 
-::ActionView::Base.send :include, ::Devise::FacebookConnectable::Helpers
+::ActionView::Base.send :include, Devise::FacebookConnectable::Helpers

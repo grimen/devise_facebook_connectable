@@ -16,7 +16,7 @@ module Devise #:nodoc:
             rescue_from ::Facebooker::Session::SessionExpired, :with => :facebook_session_expired
             rescue_from ::ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
             helper_method :facebook_session
-
+            
             # Required sprinkle of magic to avoid +Facebooker::Session::ExpiredSession+.
             #
             def expired_session_hack
@@ -30,14 +30,14 @@ module Devise #:nodoc:
             def facebook_session_expired
               reset_session
               set_flash_message :failure, :facebook_timeout
-              redirect_to root_url # FIXME: Should redirect to sign in page?
+              render_with_scope :new, :controller => :sessions
             end
 
             # Handle expired Facebook sessions automatically.
             #
             def invalid_authenticity_token
-              set_flash_message :failure, :facebook_authenticity_token
-              redirect_to root_url # FIXME: Should redirect to sign in page?
+              set_now_flash_message :failure, :facebook_authenticity_token
+              render_with_scope :new, :controller => :sessions
             end
             
           end

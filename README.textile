@@ -144,6 +144,7 @@ Sign in/out link labels, and Flash error messages can be set using I18n:
       sessions:
         facebook_invalid: "Could not sign in. Invalid account."
         facebook_timeout: "Facebook session expired., please sign in again to continue."
+        facebook_authenticity_token: "Something went wrong. For security reasons, please sign in again."
         facebook_actions:
           sign_in: "Sign in"
           sign_out: "Sign out"

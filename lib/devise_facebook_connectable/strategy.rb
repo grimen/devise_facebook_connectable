@@ -2,8 +2,6 @@
 require 'devise/strategies/base'
 # require 'facebooker/session'
 
-# Warden strategy Facebook Connect.
-#
 module Devise #:nodoc:
   module FacebookConnectable #:nodoc:
 

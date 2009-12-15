@@ -5,7 +5,7 @@ require 'devise/mapping'
 module Devise #:nodoc:
   module FacebookConnectable #:nodoc:
 
-    # Facebook Connect view helpers, i.e. connect/login/logout links, etc.
+    # Facebook Connect view helpers, i.e. sign in/out (connect) links, etc.
     #
     # == Dependencies:
     #
@@ -23,81 +23,85 @@ module Devise #:nodoc:
       # == Known issues:
       #
       #   * *autologoutlink* -  There's no onlogout callback - only onlogin, so it's not straightforward
-      #                         to trigger submit on the logout form to destroy the Warden session.
+      #                         to trigger submit on the sign out form to destroy the Warden session.
       #                         Best solution now is either to hook the even manually on click,
       #                         or use regular link like propsed here:
       #                         
       #                         http://forum.developers.facebook.com/viewtopic.php?pid=121283
       #
 
-      # Make the Facebook Connect strings localized with current locale
-      # by default. Just for convenience.
-      #
-      def localized_fb_connect_javascript_tag(options = {})
-        fb_connect_javascript_tag(options.reverse_merge(:lang => ::I18n.locale))
-      end
-
-      # Convenient connect/login/logout method. See below.
+      # Convenient sign in/out (connect) method. See below.
       #
       def facebook_link(options = {})
         unless signed_in?(options[:for])
-          facebook_login_or_connect_link(options)
+          facebook_sign_in_link(options)
         else
-          facebook_logout_link(options)
+          facebook_sign_out_link(options)
         end
       end
 
-      # Agnostic Facebook Connect login/connect button/link.
+      # Deprecated in favor for +facebook_sign_in_link+.
+      #
+      def facebook_login_link(options = {})
+        ::ActiveSupport::Deprecation.warn("facebook_login_link is deprecated. Use: facebook_sign_in_link")
+        facebook_sign_in_link(options)
+      end
+
+      # Deprecated in favor for +facebook_sign_in_link+.
+      #
+      def facebook_logout_link(options = {})
+        ::ActiveSupport::Deprecation.warn("facebook_logout_link is deprecated. Use: facebook_sign_out_link")
+        facebook_sign_out_link(options)
+      end
+
+      # Agnostic Facebook Connect sign in/out (connect) button/link.
       #
       # *Case 1:* If Facebook account already connected to the app/site, this is same as
-      # a traditional "account login" but with the Facebook dialog unless already
+      # a traditional "account sign in" but with the Facebook dialog unless already
       # logged in to Facebook.
       # 
       # *Case 2:* If account is not connected to the app/site already;
       # then this is the same as a traditional "create account".
       #
-      def facebook_login_or_connect_link(options = {})
+      def facebook_sign_in_link(options = {})
         resource = options.delete(:for)
         options.reverse_merge!(
-            :label => ::I18n.t(:login, :scope => [:devise, :facebook_sessions, :actions]),
+            :label => ::I18n.t(:facebook_sign_in, :scope => [:devise, :sessions, :actions]),
             :size => :large,
             :length => :long,
             :background => :white,
             :button => true,
             :autologoutlink => false
           )
+        options.merge!(:sign_out => true) if options[:autologoutlink] && signed_in?(options[:for])
 
-        # It seems Devise using :get method for session destroy. Not really RESTful?
-        # options.merge!(:method => :delete) if options[:autologoutlink] && signed_in?(options[:for])
-
-        content_tag(:div, :class => 'fb_connect_login_link') do
+        content_tag(:div, :class => 'facebook_connect_link sign_in') do
           facebook_connect_form(resource, options.slice(:method)) <<
           if options[:button]
-            fb_login_button('devise.facebook_connectable.login();', options)
+            fb_login_button('devise.facebook_connectable.sign_in();', options)
           else
-            fb_logout_link(options[:label], 'devise.facebook_connectable.login_with_callback();')
+            fb_logout_link(options[:label], 'devise.facebook_connectable.sign_in_with_callback();')
           end
         end
       end
-      alias :facebook_login_link :facebook_login_or_connect_link
-      alias :facebook_connect_link :facebook_login_or_connect_link
+      alias :facebook_connect_link :facebook_sign_in_link
 
-      # Agnostic Facebook Connect logout button/link. Logs out the current
+      # Agnostic Facebook Connect sign_out button/link. Logs out the current
       # user from both the app/site and Facebook main site (for security reasons).
       #
-      def facebook_logout_link(options = {})
+      def facebook_sign_out_link(options = {})
         options.reverse_merge!(
-            :label => ::I18n.t(:logout, :scope => [:devise, :facebook_sessions, :actions]),
+            :label => ::I18n.t(:facebook_sign_out, :scope => [:devise, :sessions, :actions]),
             :size => :large,
             :length => :long,
             :background => :white,
             :button => false
           )
 
-        content_tag(:div, :class => 'fb_connect_logout_link') do
-          facebook_connect_form(options.delete(:for), :logout => true, :method => :get) <<
+        content_tag(:div, :class => 'facebook_connect_link sign_out') do
+          facebook_connect_form(options.delete(:for), :sign_out => true, :method => :get) <<
           if options[:button]
-            fb_login_button('devise.facebook_connectable.logout();', options.merge(:autologoutlink => true))
+            fb_login_button('devise.facebook_connectable.sign_out();', options.merge(:autologoutlink => true))
           else
             fb_logout_link(options[:label], destroy_session_path(:user))
           end
@@ -116,7 +120,7 @@ module Devise #:nodoc:
         raise "facebook_disconnect_link: Not implemented yet."
         # TODO: 
         # options.reverse_merge!(
-        #     :label => ::I18n.t(:facebook_logout, :scope => [:devise, :sessions]),
+        #     :label => ::I18n.t(:facebook_disconnect, :scope => [:devise, :sessions, :actions]),
         #   )
         # content_tag(:div, :class => 'fb_connect_disconnect_link') do
         #   link_to_function(options[:label], 'devise.facebook_connectable.disconnect_with_callback();')
@@ -125,17 +129,18 @@ module Devise #:nodoc:
 
       protected
 
-        # Generate agnostic hidden login/logout form for Facebook Connect.
+        # Generate agnostic hidden sign in/out (connect) form for Facebook Connect.
         #
-        def facebook_connect_form(for_resource, options = {})
-          logout_form = options.delete(:logout) || (options[:method] == :delete)
+        def facebook_connect_form(mapping_to, options = {})
+          sign_out_form = options.delete(:sign_out)
           options.reverse_merge!(
-              :id => (logout_form ? 'fb_connect_logout_form' : 'fb_connect_login_form'),
+              :id => (sign_out_form ? 'fb_connect_sign_out_form' : 'fb_connect_sign_in_form'),
               :style => 'display:none;'
             )
-          resource = ::Devise::Mapping.find_by_path(request.path).to rescue for_resource
-          url = logout_form ? destroy_session_path(resource) : session_path(resource)
-          form_for(resource, :url => url, :html => options) { |f| }
+          mapping_to = ::Devise::Mapping.find_by_path(request.path).to rescue mapping_to
+          url = sign_out_form ? destroy_session_path(mapping_to) : session_path(mapping_to)
+
+          form_for(mapping_to, :url => url, :html => options) { |f| }
         end
 
     end

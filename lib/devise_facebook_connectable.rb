@@ -43,11 +43,11 @@ end
 #
 I18n.load_path.unshift File.join(File.dirname(__FILE__), *%w[devise_facebook_connectable locales en.yml])
 
-# Add +:facebook_connectable+ serializers and strategies to defaults.
+# Add +:facebook_connectable+ strategies to defaults.
 #
 Devise::ALL.unshift :facebook_connectable
 Devise::STRATEGIES.unshift :facebook_connectable
-Devise::CONTROLLERS[:facebook_sessions] = [:facebook_connectable]
+Devise::CONTROLLERS[:sessions].unshift :facebook_connectable
 
 Devise::Models.module_eval do
   autoload :FacebookConnectable, 'devise_facebook_connectable/model'

@@ -32,6 +32,7 @@ module Devise #:nodoc:
         def self.included(base) #:nodoc:
           base.class_eval do
             extend ClassMethods
+            extend ::Devise::Models::SessionSerializer
           end
         end
 
@@ -41,7 +42,10 @@ module Devise #:nodoc:
           self.send(:"#{self.class.facebook_uid_field}=", attributes[:uid])
           self.send(:"#{self.class.facebook_session_key_field}=", attributes[:session_key])
 
-          # Only populate +email+ field if it's available (say, if +authenticable+ module is used).
+          # Confirm without e-mail - if confirmable module is loaded.
+          self.skip_confirmation! if self.respond_to?(:skip_confirmation!)
+
+          # Only populate +email+ field if it's available (e.g. if +authenticable+ module is used).
           self.email = attributes[:email] || '' if self.respond_to?(:email)
 
           # Lazy hack: These database fields are required if +authenticable+/+confirmable+
@@ -49,9 +53,6 @@ module Devise #:nodoc:
           # migration, but keeping this to avoid unnecessary problems.
           self.password_salt = '' if self.respond_to?(:password_salt)
           self.encrypted_password = '' if self.respond_to?(:encrypted_password)
-          
-          # Confirm without e-mail - if confirmable module is loaded.
-          self.skip_confirmation! if self.respond_to?(:skip_confirmation!)
         end
 
         # Checks if Facebook Connect:ed.

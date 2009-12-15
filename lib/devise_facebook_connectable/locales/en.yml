@@ -1,11 +1,11 @@
 en:
   devise:
-    facebook_sessions:
-      signed_in: 'Signed in successfully.'
-      signed_out: 'Signed out successfully.'
-      unauthenticated: 'You need to sign in (connect) before continuing.'
-      invalid: 'Could not login. Invalid account.'
-      timeout: 'Facebook session expired., please sign in again to continue.'
-      actions:
+    sessions:
+      facebook_signed_in: 'Signed in successfully.'
+      facebook_signed_out: 'Signed out successfully.'
+      facebook_unauthenticated: 'You need to sign in (connect) before continuing.'
+      facebook_invalid: 'Could not login. Invalid account.'
+      facebook_timeout: 'Facebook session expired., please sign in again to continue.'
+      facebook_actions:
         sign_in: "Sign in" # NOTE: Not used for the default Facebook Connect button.
         sign_out: "Sign out"

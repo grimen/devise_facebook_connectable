@@ -29,7 +29,7 @@ module Devise #:nodoc:
             #
             def facebook_session_expired
               reset_session
-              set_now_flash_message :failure, :timeout
+              set_now_flash_message :failure, :facebook_timeout
               redirect_to root_url
             end
 

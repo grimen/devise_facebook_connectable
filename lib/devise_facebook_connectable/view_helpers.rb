@@ -66,7 +66,7 @@ module Devise #:nodoc:
       def facebook_sign_in_link(options = {})
         resource = options.delete(:for)
         options.reverse_merge!(
-            :label => ::I18n.t(:sign_in, :scope => [:devise, :facebook_sessions, :actions]),
+            :label => ::I18n.t(:sign_in, :scope => [:devise, :sessions, :facebook_actions]),
             :size => :large,
             :length => :long,
             :background => :white,
@@ -91,7 +91,7 @@ module Devise #:nodoc:
       #
       def facebook_sign_out_link(options = {})
         options.reverse_merge!(
-            :label => ::I18n.t(:sign_out, :scope => [:devise, :facebook_sessions, :actions]),
+            :label => ::I18n.t(:sign_out, :scope => [:devise, :sessions, :facebook_actions]),
             :size => :large,
             :length => :long,
             :background => :white,

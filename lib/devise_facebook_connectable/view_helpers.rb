@@ -33,10 +33,13 @@ module Devise #:nodoc:
       # Convenient sign in/out (connect) method. See below.
       #
       def facebook_link(options = {})
-        unless signed_in?(options[:for])
-          facebook_sign_in_link(options)
+        scope = auto_detect_scope(options.slice(:scope, :for))
+        options.except!(:scope, :for)
+
+        unless signed_in?(scope)
+          facebook_sign_in_link(options.merge(:scope => scope))
         else
-          facebook_sign_out_link(options)
+          facebook_sign_out_link(options.merge(:scope => scope))
         end
       end
 
@@ -64,7 +67,8 @@ module Devise #:nodoc:
       # then this is the same as a traditional "create account".
       #
       def facebook_sign_in_link(options = {})
-        resource = options.delete(:for)
+        scope = auto_detect_scope(options.slice(:scope, :for))
+        options.except!(:scope, :for)
         options.reverse_merge!(
             :label => ::I18n.t(:sign_in, :scope => [:devise, :sessions, :facebook_actions]),
             :size => :large,
@@ -73,10 +77,10 @@ module Devise #:nodoc:
             :button => true,
             :autologoutlink => false
           )
-        options.merge!(:sign_out => true) if options[:autologoutlink] && signed_in?(options[:for])
+        options.merge!(:sign_out => true) if options[:autologoutlink] && signed_in?(scope)
 
         content_tag(:div, :class => 'facebook_connect_link sign_in') do
-          facebook_connect_form(resource, options.slice(:method)) <<
+          facebook_connect_form(scope, options.slice(:method)) <<
           if options[:button]
             fb_login_button('devise.facebook_connectable.sign_in();', options)
           else
@@ -90,6 +94,8 @@ module Devise #:nodoc:
       # user from both the app/site and Facebook main site (for security reasons).
       #
       def facebook_sign_out_link(options = {})
+        scope = auto_detect_scope(options.slice(:scope, :for))
+        options.except!(:scope, :for)
         options.reverse_merge!(
             :label => ::I18n.t(:sign_out, :scope => [:devise, :sessions, :facebook_actions]),
             :size => :large,
@@ -99,7 +105,7 @@ module Devise #:nodoc:
           )
 
         content_tag(:div, :class => 'facebook_connect_link sign_out') do
-          facebook_connect_form(options.delete(:for), :sign_out => true, :method => :get) <<
+          facebook_connect_form(scope, :sign_out => true, :method => :get) <<
           if options[:button]
             fb_login_button('devise.facebook_connectable.sign_out();', options.merge(:autologoutlink => true))
           else
@@ -129,18 +135,45 @@ module Devise #:nodoc:
 
       protected
 
+        # Auto-detect Devise scope using +Warden::Manager.default_scope+.
+        # Used to make the link-helpers smart if - like in most cases -
+        # only one devise scope will be used, e.g. "user" or "account".
+        #
+        def auto_detect_scope(options = {})
+          scope = options[:scope] || options[:for]
+          scope ||= ::Warden::Manager.default_scope
+          mapping = ::Devise::Mapping.new(scope, {})
+
+          if mapping.for.include?(:facebook_connectable)
+            scope
+          else
+            error_message = 
+              "devise/facebook_connectable: %s" <<
+              " Did you forget to devise facebook_connect in your model? Like this: devise :facebook_connectable." <<
+              " You can also specify scope explicitly, e.g.: facebook_*link :for => :customer."
+            error_message %=
+              if scope.present?
+                "#{scope.inspect} is not a valid facebook_connectable devise scope. " <<
+                "Loaded modules for this scope: #{mapping.for.inspect}."
+              else
+                "Could not auto-detect any facebook_connectable devise-model."
+              end
+            raise error_message
+          end
+        end
+
         # Generate agnostic hidden sign in/out (connect) form for Facebook Connect.
         #
-        def facebook_connect_form(mapping_to, options = {})
+        def facebook_connect_form(scope, options = {})
           sign_out_form = options.delete(:sign_out)
           options.reverse_merge!(
               :id => (sign_out_form ? 'fb_connect_sign_out_form' : 'fb_connect_sign_in_form'),
               :style => 'display:none;'
             )
-          mapping_to = ::Devise::Mapping.find_by_path(request.path).to rescue mapping_to
-          url = sign_out_form ? destroy_session_path(mapping_to) : session_path(mapping_to)
+          scope = ::Devise::Mapping.find_by_path(request.path).to rescue scope
+          url = sign_out_form ? destroy_session_path(scope) : session_path(scope)
 
-          form_for(mapping_to, :url => url, :html => options) { |f| }
+          form_for(scope, :url => url, :html => options) { |f| }
         end
 
     end

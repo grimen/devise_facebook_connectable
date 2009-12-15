@@ -112,7 +112,7 @@ module Devise #:nodoc:
       # Disconnects, i.e. deletes, user account. Identical as "Delete my account",
       # but for Facebook Connect (which "un-installs" the app/site for the current user).
       #
-      # References:
+      # == References:
       #
       #   * http://wiki.developers.facebook.com/index.php/Auth.revokeAuthorization
       #

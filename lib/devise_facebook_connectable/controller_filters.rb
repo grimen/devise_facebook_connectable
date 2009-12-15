@@ -13,10 +13,12 @@ module Devise #:nodoc:
           base.class_eval do
             before_filter :expired_session_hack
             before_filter :set_facebook_session
+
             rescue_from ::Facebooker::Session::SessionExpired, :with => :facebook_session_expired
             rescue_from ::ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
+
             helper_method :facebook_session
-            
+
             # Required sprinkle of magic to avoid +Facebooker::Session::ExpiredSession+.
             #
             def expired_session_hack
@@ -39,7 +41,7 @@ module Devise #:nodoc:
               set_now_flash_message :failure, :facebook_authenticity_token
               render_with_scope :new, :controller => :sessions
             end
-            
+
           end
         end
 

@@ -4,7 +4,7 @@ require 'facebooker/session'
 require 'devise_facebook_connectable/strategy'
 
 module Devise #:nodoc:
-  #module FacebookConnectable #:nodoc:
+  # module FacebookConnectable #:nodoc:
     module Models #:nodoc:
 
       # Facebook Connectable Module, responsible for validating authenticity of a 
@@ -216,5 +216,5 @@ module Devise #:nodoc:
 
       end
     end
-  #end
+  # end
 end

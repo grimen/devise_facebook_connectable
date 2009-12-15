@@ -182,13 +182,19 @@ In @app/views/layouts/application.html.*@, something like (showing only the rele
 
 *View:*
 
-...add the sign in/out (connect) link somewhere:
+...add the sign in/out (connect) link somewhere - auto-detects scope:
 
 <pre>
-  <%= facebook_link :for => :user %>
+  <%= facebook_link %>
 </pre>
 
-or more explicit, something like:
+...or with explicit scope:
+
+<pre>
+  <%= facebook_link :for => :customer %>
+</pre>
+
+...or even more explicit, something like:
 
 <pre>
   <% unless signed_in?(:user) %>
@@ -197,6 +203,8 @@ or more explicit, something like:
     <%= facebook_sign_out_link :for => :user %>
   <% end %>
 </pre>
+
+etc.
 
 *Model:*
 

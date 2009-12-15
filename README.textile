@@ -56,13 +56,7 @@ h2. Setup
 
 *Devise: Setup*
 
-...if you haven't done this already.
-
-<pre>
-  $ ./script/generate devise_install
-</pre>
-
-See "Devise":http://github.com/grimen/devise documentation for more info on available generators to get started smoothly.
+See "Devise":http://github.com/plataformatec/devise documentation for instructions on how to setup Devise.
 
 *Facebook Connectable + Facebooker: Setup*
 
@@ -83,9 +77,11 @@ Note: The @--api@ and @--secret@ arguments only makes sense if you already got F
 
 <pre>
   create_table :users do
+    
     t.facebook_connectable
     
-    # Optional: Additional module migration helpers here.
+    # optional: other devise modules
+    
   end
 </pre>
 
@@ -101,9 +97,11 @@ Note: The @--api@ and @--secret@ arguments only makes sense if you already got F
 
 <pre>
   class User < ActiveRecord::Base
+    
     devise :facebook_connectable
     
-    # Optional: Additional modules here.
+    # optional: other devise modules
+    
   end
 </pre>
 
@@ -313,11 +311,11 @@ Priority:
 * *Specs/Features* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Would appreciate any help on this. Looking into using Cucumber + "watircuke":http://github.com/richdownie/watircuke / "culerity":http://github.com/langalex/culerity.
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).
 * *HAML vs ERB clash* - that I right now consider as a HAML bug - breaks the view helpers *if both ERB and HAML is used* in the same project. Can be avoided by either using HAML gem/plugin and use HAML views only, and vice-versa. Note: Something with the @form_for@-helper causing this issue.
- *Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
 * *Connect existing accounts* using "Connect.registerUsers":http://wiki.developers.facebook.com/index.php/Connect.registerUsers.
 
 Maybe:
 
+* Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
 * *Facebook Connect view generator* maybe?
 * *Make Facebooker optional* - a more slimmed implementation if Facebooker feels to heavy.
 

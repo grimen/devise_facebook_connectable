@@ -9,6 +9,13 @@ module Devise #:nodoc:
       #
       module Filters
 
+        # == References
+        #
+        # For more info about the available Facebooker controller methods:
+        #
+        #   * http://github.com/mmangino/facebooker/blob/master/lib/facebooker/rails/controller.rb
+        #
+
         def self.included(base) #:nodoc:
           base.class_eval do
             before_filter :expired_session_hack
@@ -24,7 +31,12 @@ module Devise #:nodoc:
             def expired_session_hack
               clear_facebook_session_information
             rescue
-              # rescue in ruby 1.9
+              if RUBY_VERSION >= '1.9' && RAILS_GEM_VERSION == '2.3.4'
+                # Rails 2.3.4 on Ruby 1.9 issue. Should not happen in Rails 2.3.5+
+                # See: https://rails.lighthouseapp.com/projects/8994/tickets/3144
+                raise "Error caused by a known session handling bug in Rails 2.3.4 on Ruby 1.9." <<
+                  " Please try to install Rails 2.3.5+ to be on the safe side."
+              end
             end
 
             # Handle expired Facebook sessions automatically.

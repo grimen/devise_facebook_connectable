@@ -286,7 +286,7 @@ Stuff that you need to be aware of:
 
 * Just to be clear: You need to use the @devise_facebook_connect@-helpers to sign in/out, otherwise it won't work.
 * If you sign in a resource using Facebook Connect (with this extension), you need to sign out using the the Facebook Connect sign out helpers available. If not you will end up being logged into Facebook but not to the account, and vice-versa. Messy. Would be cool with some kind of polling script that logs the user out of Facebook if the account is signed out - but not really needed now; just a bit of common sense and use the helpers and this will not be an issue.
-* For *Ruby 1.9* support you'll need to install Rails 2.3.5 which contains a required Ruby 1.9 patch in ActiveSupport for time-attack-safe string comparisons that Facebooker uses in its session management helpers. Otherwise than that I haven't got any Ruby 1.9-related issues so far.
+* For *Ruby 1.9* support you should *AVOID* installing Rails 2.3.4. This version of rails contains a bug in a session helper that Facebooker relies on. More info about the bug/patch "here":https://rails.lighthouseapp.com/projects/8994/tickets/3144. Rails 2.3.4.1 (patch release) should work.
 
 h2. References
 

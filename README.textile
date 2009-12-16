@@ -323,7 +323,7 @@ Priority:
 
 Maybe:
 
-* Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
+* *Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
 * *Facebook Connect view generator* maybe?
 * *Make Facebooker optional* - a more slimmed implementation if Facebooker feels to heavy.
 

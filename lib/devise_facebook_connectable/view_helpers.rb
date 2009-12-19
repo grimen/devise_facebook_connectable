@@ -142,8 +142,8 @@ module Devise #:nodoc:
         def auto_detect_scope(options = {})
           scope = options[:scope] || options[:for]
           scope ||= ::Warden::Manager.default_scope
-          mapping = ::Devise::Mapping.new(scope, {})
-
+          mapping = ::Devise.mappings[scope]
+          
           if mapping.for.include?(:facebook_connectable)
             scope
           else
@@ -156,7 +156,7 @@ module Devise #:nodoc:
                 "#{scope.inspect} is not a valid facebook_connectable devise scope. " <<
                 "Loaded modules for this scope: #{mapping.for.inspect}."
               else
-                "Could not auto-detect any facebook_connectable devise-model."
+                "Could not auto-detect any facebook_connectable devise scope."
               end
             raise error_message
           end

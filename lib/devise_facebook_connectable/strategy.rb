@@ -42,7 +42,7 @@ module Devise #:nodoc:
                 end
 
                 begin
-                  user.save_with_validation(false)
+                  user.save(false)
                   user.on_after_facebook_connect(facebook_session)
                   success!(user)
                 rescue

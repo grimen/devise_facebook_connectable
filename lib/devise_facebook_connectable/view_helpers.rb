@@ -32,28 +32,28 @@ module Devise #:nodoc:
 
       # Convenient sign in/out (connect) method. See below.
       #
-      def facebook_link(options = {})
-        scope = auto_detect_scope(options.slice(:scope, :for))
-        options.except!(:scope, :for)
-
+      def facebook_link(*args)
+        scope = auto_detect_scope(*args)
         unless signed_in?(scope)
-          facebook_sign_in_link(options.merge(:scope => scope))
+          facebook_sign_in_link(*args)
         else
-          facebook_sign_out_link(options.merge(:scope => scope))
+          facebook_sign_out_link(*args)
         end
       end
 
       # Deprecated in favor for +facebook_sign_in_link+.
       #
       def facebook_login_link(options = {})
-        ::ActiveSupport::Deprecation.warn("facebook_login_link is deprecated. Use: facebook_sign_in_link")
+        ::ActiveSupport::Deprecation.warn("DEPRECATION:" <<
+          " facebook_login_link is deprecated. Use: facebook_sign_in_link.")
         facebook_sign_in_link(options)
       end
 
       # Deprecated in favor for +facebook_sign_in_link+.
       #
       def facebook_logout_link(options = {})
-        ::ActiveSupport::Deprecation.warn("facebook_logout_link is deprecated. Use: facebook_sign_out_link")
+        ::ActiveSupport::Deprecation.warn("DEPRECATION:" <<
+          " facebook_logout_link is deprecated. Use: facebook_sign_out_link.")
         facebook_sign_out_link(options)
       end
 
@@ -67,7 +67,8 @@ module Devise #:nodoc:
       # then this is the same as a traditional "create account".
       #
       def facebook_sign_in_link(options = {})
-        scope = auto_detect_scope(options.slice(:scope, :for))
+        scope = auto_detect_scope(*args)
+        options = args.extract_options!
         options.except!(:scope, :for)
         options.reverse_merge!(
             :label => ::I18n.t(:sign_in, :scope => [:devise, :sessions, :facebook_actions]),
@@ -93,8 +94,9 @@ module Devise #:nodoc:
       # Agnostic Facebook Connect sign_out button/link. Logs out the current
       # user from both the app/site and Facebook main site (for security reasons).
       #
-      def facebook_sign_out_link(options = {})
-        scope = auto_detect_scope(options.slice(:scope, :for))
+      def facebook_sign_out_link(*args)
+        scope = auto_detect_scope(*args)
+        options = args.extract_options!
         options.except!(:scope, :for)
         options.reverse_merge!(
             :label => ::I18n.t(:sign_out, :scope => [:devise, :sessions, :facebook_actions]),
@@ -114,7 +116,7 @@ module Devise #:nodoc:
         end
       end
 
-      # Agnostic Facebook Connect disconnect button/link.
+      # TODO: Agnostic Facebook Connect disconnect button/link.
       # Disconnects, i.e. deletes, user account. Identical as "Delete my account",
       # but for Facebook Connect (which "un-installs" the app/site for the current user).
       #
@@ -139,8 +141,17 @@ module Devise #:nodoc:
         # Used to make the link-helpers smart if - like in most cases -
         # only one devise scope will be used, e.g. "user" or "account".
         #
-        def auto_detect_scope(options = {})
-          scope = options[:scope] || options[:for]
+        def auto_detect_scope(*args)
+          options = args.extract_options!
+          
+          if options.key?(:for)
+            options[:scope] = options[:for]
+            ::ActiveSupport::Deprecation.warn("DEPRECATION: " <<
+              "Devise scope :for option is deprecated. " <<
+              "Use: facebook_*_link(:some_scope), or facebook_*_link(:scope => :some_scope)")
+          end
+          
+          scope = args.detect { |arg| arg.is_a?(Symbol) } || options[:scope]
           scope ||= ::Warden::Manager.default_scope
           mapping = ::Devise.mappings[scope]
           
@@ -148,7 +159,7 @@ module Devise #:nodoc:
             scope
           else
             error_message = 
-              "devise/facebook_connectable: %s" <<
+              "%s" <<
               " Did you forget to devise facebook_connect in your model? Like this: devise :facebook_connectable." <<
               " You can also specify scope explicitly, e.g.: facebook_*link :for => :customer."
             error_message %=

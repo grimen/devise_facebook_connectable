@@ -16,7 +16,7 @@ module Devise #:nodoc:
         # Without a Facebook session authentication cannot proceed.
         #
         def valid?
-          ::Facebooker::Session.current.present?
+          super && ::Facebooker::Session.current.present?
         end
 
         # Authenticate user with Facebook Connect.

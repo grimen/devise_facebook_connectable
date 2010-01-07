@@ -307,25 +307,26 @@ h2. References
 
 *Similar projects:*
 
-* "authlogic_facebook_connect":http://github.com/kalasjocke/authlogic_facebook_connect - Facebook Connect for "Authlogic":http://github.com/binarylogic/authlogic by "Joakim Ekberg":http://github.com/kalasjocke
-* "authlogic_facebook":http://github.com/GICodeWarrior/authlogic_facebook Facebook Connect for "Authlogic":http://github.com/binarylogic/authlogic by "Rusty Burchfield":http://github.com/GICodeWarrior
+* "authlogic_facebook_connect":http://github.com/kalasjocke/authlogic_facebook_connect - Facebook Connect for "Authlogic":http://github.com/binarylogic/authlogic by "Joakim Ekberg":http://github.com/kalasjocke (using "Facebooker":http://github.com/mmangino/facebooker)
+* "authlogic_facebook":http://github.com/GICodeWarrior/authlogic_facebook Facebook Connect for "Authlogic":http://github.com/binarylogic/authlogic by "Rusty Burchfield":http://github.com/GICodeWarrior (using "MiniFB":http://github.com/appoxy/mini_fb)
 
 h2. TODO / Known Issues
 
 Priority:
 
-* *Timeoutable* should timeout Facebook sessions as well - configurable.
 * *Ensure no module clashes* with Devise core modules is a design goal, but have only tested @Tracking@ and @Confirmable@ thoroughly so far for.
+* *Timeoutable* should timeout Facebook sessions as well - configurable.
 * *Specs/Features* would be great. Skipped tests so far as I built this using experimenting as I wasn't sure how Devise and Warden was working - trial-n-error style. Would appreciate any help on this. Looking into using Cucumber + "watircuke":http://github.com/richdownie/watircuke / "culerity":http://github.com/langalex/culerity.
 * *Disconnect link helper* would makes sense, i.e. disconnect a Facebook account from the app/site (a.k.a. delete the account Facebook Connect style).
-* *HAML vs ERB clash* - that I right now consider as a HAML bug - breaks the view helpers *if both ERB and HAML is used* in the same project. Can be avoided by either using HAML gem/plugin and use HAML views only, and vice-versa. Note: Something with the @form_for@-helper causing this issue.
 * *Connect existing accounts* using "Connect.registerUsers":http://wiki.developers.facebook.com/index.php/Connect.registerUsers.
+* *Option: Facebooker vs. MiniFB* - a more slimmed implementation if Facebooker feels to heavy - for those who don't want to depend on Facebooker - want something more light-weight. Most probably implemented using "MiniFB":http://github.com/appoxy/mini_fb.
+* *Review controller logic* - some of my Facebooker hacks in controller might not be best practice. They seem to do the job though. =)
 
 Maybe:
 
 * *Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
+* *HAML vs ERB clash* - that I right now consider as a HAML bug - breaks the view helpers *if both ERB and HAML is used* in the same project. Can be avoided by either using HAML gem/plugin and use HAML views only, and vice-versa. Note: Something with the @form_for@-helper causing this issue.
 * *Facebook Connect view generator* maybe?
-* *Make Facebooker optional* - a more slimmed implementation if Facebooker feels to heavy.
 
 h2. License
 

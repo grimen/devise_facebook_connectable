@@ -46,7 +46,7 @@ module Devise #:nodoc:
       def facebook_login_link(*args)
         ::ActiveSupport::Deprecation.warn("DEPRECATION:" <<
           " facebook_login_link is deprecated. Use: facebook_sign_in_link.")
-        facebook_sign_in_link(options)
+        facebook_sign_in_link(*args)
       end
 
       # Deprecated in favor for +facebook_sign_in_link+.
@@ -54,7 +54,7 @@ module Devise #:nodoc:
       def facebook_logout_link(*args)
         ::ActiveSupport::Deprecation.warn("DEPRECATION:" <<
           " facebook_logout_link is deprecated. Use: facebook_sign_out_link.")
-        facebook_sign_out_link(options)
+        facebook_sign_out_link(*args)
       end
 
       # Agnostic Facebook Connect sign in/out (connect) button/link.

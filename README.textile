@@ -325,7 +325,6 @@ Maybe:
 
 * *Expired sessions* aka @Facebooker::Session::SessionExpired@ appears less now after some controller filter hacks - but needs thorough testing.
 * *HAML vs ERB clash* - that I right now consider as a HAML bug - breaks the view helpers *if both ERB and HAML is used* in the same project. Can be avoided by either using HAML gem/plugin and use HAML views only, and vice-versa. Note: Something with the @form_for@-helper causing this issue.
-* *Facebook Connect view generator* maybe?
 
 h2. License
 

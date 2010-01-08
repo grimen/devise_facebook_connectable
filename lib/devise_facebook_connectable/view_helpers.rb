@@ -43,7 +43,7 @@ module Devise #:nodoc:
 
       # Deprecated in favor for +facebook_sign_in_link+.
       #
-      def facebook_login_link(options = {})
+      def facebook_login_link(*args)
         ::ActiveSupport::Deprecation.warn("DEPRECATION:" <<
           " facebook_login_link is deprecated. Use: facebook_sign_in_link.")
         facebook_sign_in_link(options)
@@ -51,7 +51,7 @@ module Devise #:nodoc:
 
       # Deprecated in favor for +facebook_sign_in_link+.
       #
-      def facebook_logout_link(options = {})
+      def facebook_logout_link(*args)
         ::ActiveSupport::Deprecation.warn("DEPRECATION:" <<
           " facebook_logout_link is deprecated. Use: facebook_sign_out_link.")
         facebook_sign_out_link(options)
@@ -66,7 +66,7 @@ module Devise #:nodoc:
       # *Case 2:* If account is not connected to the app/site already;
       # then this is the same as a traditional "create account".
       #
-      def facebook_sign_in_link(options = {})
+      def facebook_sign_in_link(*args)
         scope = auto_detect_scope(*args)
         options = args.extract_options!
         options.except!(:scope, :for)
@@ -124,7 +124,7 @@ module Devise #:nodoc:
       #
       #   * http://wiki.developers.facebook.com/index.php/Auth.revokeAuthorization
       #
-      def facebook_disconnect_link(options = {})
+      def facebook_disconnect_link(*args)
         raise "facebook_disconnect_link: Not implemented yet."
         # TODO: 
         # options.reverse_merge!(

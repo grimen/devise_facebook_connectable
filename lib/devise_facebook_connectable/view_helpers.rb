@@ -26,7 +26,7 @@ module Devise #:nodoc:
       #                         to trigger submit on the sign out form to destroy the Warden session.
       #                         Best solution now is either to hook the even manually on click,
       #                         or use regular link like propsed here:
-      #                         
+      #
       #                         http://forum.developers.facebook.com/viewtopic.php?pid=121283
       #
 
@@ -62,7 +62,7 @@ module Devise #:nodoc:
       # *Case 1:* If Facebook account already connected to the app/site, this is same as
       # a traditional "account sign in" but with the Facebook dialog unless already
       # logged in to Facebook.
-      # 
+      #
       # *Case 2:* If account is not connected to the app/site already;
       # then this is the same as a traditional "create account".
       #
@@ -126,7 +126,7 @@ module Devise #:nodoc:
       #
       def facebook_disconnect_link(*args)
         raise "facebook_disconnect_link: Not implemented yet."
-        # TODO: 
+        # TODO:
         # options.reverse_merge!(
         #     :label => ::I18n.t(:facebook_disconnect, :scope => [:devise, :sessions, :actions]),
         #   )
@@ -143,22 +143,22 @@ module Devise #:nodoc:
         #
         def auto_detect_scope(*args)
           options = args.extract_options!
-          
+
           if options.key?(:for)
             options[:scope] = options[:for]
             ::ActiveSupport::Deprecation.warn("DEPRECATION: " <<
               "Devise scope :for option is deprecated. " <<
               "Use: facebook_*_link(:some_scope), or facebook_*_link(:scope => :some_scope)")
           end
-          
+
           scope = args.detect { |arg| arg.is_a?(Symbol) } || options[:scope]
           scope ||= ::Warden::Manager.default_scope
           mapping = ::Devise.mappings[scope]
-          
+
           if mapping.for.include?(:facebook_connectable)
             scope
           else
-            error_message = 
+            error_message =
               "%s" <<
               " Did you forget to devise facebook_connect in your model? Like this: devise :facebook_connectable." <<
               " You can also specify scope explicitly, e.g.: facebook_*link :for => :customer."

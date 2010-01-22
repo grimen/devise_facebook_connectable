@@ -4,7 +4,7 @@ require 'facebooker/session'
 module Devise #:nodoc:
   module FacebookConnectable #:nodoc:
     module Controllers #:nodoc:
-      
+
       # Controller filters (extensions) needed for Facebook Connect.
       #
       module Filters

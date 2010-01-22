@@ -1,10 +1,10 @@
 /**
  *  JavaScript Helpers for devise_facebook_connectable,
  *  to make sign in/out (connect) with Devise seamless.
- *  
+ *
  *  Note: JavaScript framework agnostic.
  */
- 
+
 if (typeof devise === 'undefined' || devise === null) {
   devise = {};
 }
@@ -13,7 +13,7 @@ if (typeof devise.facebook_connectable === 'undefined' || devise.facebook_connec
   devise.facebook_connectable = {};
 }
 
-/* 
+/*
  *  Connect/Login.
  */
 devise.facebook_connectable.sign_in = function fbc_sign_in() {
@@ -21,7 +21,7 @@ devise.facebook_connectable.sign_in = function fbc_sign_in() {
   return false;
 };
 
-/* 
+/*
  *  Connect/Login - with callback.
  */
 devise.facebook_connectable.sign_in_with_callback = function fbc_sign_in_with_callback() {
@@ -29,7 +29,7 @@ devise.facebook_connectable.sign_in_with_callback = function fbc_sign_in_with_ca
   return false;
 };
 
-/* 
+/*
  *  Logout.
  */
 devise.facebook_connectable.sign_out = function fbc_sign_out() {
@@ -37,7 +37,7 @@ devise.facebook_connectable.sign_out = function fbc_sign_out() {
   return false;
 };
 
-/* 
+/*
  *  Logout - with callback.
  */
 devise.facebook_connectable.sign_out_with_callback = function fbc_sign_out_with_callback() {
@@ -45,7 +45,7 @@ devise.facebook_connectable.sign_out_with_callback = function fbc_sign_out_with_
   return false;
 };
 
-/* 
+/*
  *  TODO: Logout.
  */
 devise.facebook_connectable.disconnect = function fbc_disconnect() {
@@ -53,7 +53,7 @@ devise.facebook_connectable.disconnect = function fbc_disconnect() {
   return false;
 };
 
-/* 
+/*
  *  TODO: Disconnect - with callback.
  */
 devise.facebook_connectable.disconnect_with_callback = function fbc_disconnect_with_callback() {

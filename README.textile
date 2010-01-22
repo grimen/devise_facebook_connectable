@@ -77,11 +77,11 @@ Note: The @--api@ and @--secret@ arguments only makes sense if you already got F
 
 <pre>
   create_table :users do
-    
+
     t.facebook_connectable
-    
+
     # optional: other devise modules
-    
+
   end
 </pre>
 
@@ -97,11 +97,11 @@ Note: The @--api@ and @--secret@ arguments only makes sense if you already got F
 
 <pre>
   class User < ActiveRecord::Base
-    
+
     devise :facebook_connectable
-    
+
     # optional: other devise modules
-    
+
   end
 </pre>
 
@@ -159,14 +159,14 @@ In @app/views/layouts/application.html.*@, something like (showing only the rele
 <pre>
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-  
+
   <!-- REQUIRED: Include Facebook XMLNS (XML namespace). -->
   <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
     <head>
       ...
       <!-- REQUIRED: Include Facebook Javascript (with current locale). See Facebooker documentation. -->
       <%= fb_connect_javascript_tag(:lang => ::I18n.locale) %>
-      
+
       <!-- REQUIRED: Include devise_facebook_connectable Javascripts. -->
       <%= javascript_include_tag :defaults, 'devise.facebook_connectable' %>
       ...
@@ -214,39 +214,39 @@ etc.
 <pre>
   class User < ActiveRecord::Base
     devise :facebook_connectable
-    
+
     def before_facebook_connect(fb_session)
-      
+
       # Just fetch what we really need from Facebook...
-      fb_session.user.populate(:locale, :current_location, :username, :name, :first_name, :last_name, 
+      fb_session.user.populate(:locale, :current_location, :username, :name, :first_name, :last_name,
                                 :birthday_date, :sex, :city, :state, :country)
-                                
+
       self.locale             = my_fancy_locale_parser(fb_session.user.locale)
       self.time_zone          = fb_session.user.current_location.try(:city)
       self.country            = fb_session.user.current_location.try(:country)
-      
+
       self.username           = fb_session.user.username
-      
+
       self.profile.real_name  = fb_session.user.name
       self.profile.first_name = fb_session.user.first_name
       self.profile.last_name  = fb_session.user.last_name
       self.profile.birthdate  = fb_session.user.birthday_date.try(:to_date)
       self.profile.gender     = my_fancy_gender_parser(fb_session.user.sex)
-      
+
       self.profile.city       = fb_session.user.hometown_location.try(:city)
       self.profile.zip_code   = fb_session.user.hometown_location.try(:state)
       self.profile.country    = fb_session.user.hometown_location.try(:country)
-      
+
       # etc...
-      
+
     end
-    
+
     def after_facebook_connect(fb_session)
-    
+
       # ...
-      
+
     end
-    
+
   end
 </pre>
 
@@ -329,4 +329,4 @@ Maybe:
 h2. License
 
 Released under the MIT license.<br />
-Copyright (c) 2009 "Jonas Grimfelt":http://github.com/grimen
+Copyright (c) 2009-2010 "Jonas Grimfelt":http://github.com/grimen

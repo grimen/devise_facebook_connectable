@@ -7,7 +7,7 @@ module Devise #:nodoc:
   # module FacebookConnectable #:nodoc:
     module Models #:nodoc:
 
-      # Facebook Connectable Module, responsible for validating authenticity of a 
+      # Facebook Connectable Module, responsible for validating authenticity of a
       # user and storing credentials while signing in using their Facebook account.
       #
       # == Configuration:
@@ -72,31 +72,31 @@ module Devise #:nodoc:
         #   # Overridden in Facebook Connect:able model, e.g. "User".
         #   #
         #   def before_facebook_connect(fb_session)
-        #     
+        #
         #     # Just fetch what we really need from Facebook...
         #     fb_session.user.populate(:locale, :current_location, :username, :name,
         #                               :first_name, :last_name, :birthday_date, :sex,
         #                               :city, :state, :country)
-        #     
+        #
         #     self.locale             = my_fancy_locale_parser(fb_session.user.locale)
         #     "Stockholm" => "(GMT+01:00) Stockholm", "Never-Never-land" => "(GMT+00:00) UTC"
         #     self.time_zone          = fb_session.user.current_location.try(:city)
         #     self.country            = fb_session.user.current_location.try(:country)
-        #     
+        #
         #     self.username           = fb_session.user.username
-        #     
+        #
         #     self.profile.real_name  = fb_session.user.name
         #     self.profile.first_name = fb_session.user.first_name
         #     self.profile.last_name  = fb_session.user.last_name
         #     self.profile.birthdate  = fb_session.user.birthday_date.try(:to_date)
         #     self.profile.gender     = my_fancy_gender_parser(fb_session.user.sex)
-        #     
+        #
         #     self.profile.city       = fb_session.user.hometown_location.try(:city)
         #     self.profile.zip_code   = fb_session.user.hometown_location.try(:state)
         #     self.profile.country    = fb_session.user.hometown_location.try(:country)
-        #     
+        #
         #     # etc...
-        #     
+        #
         #   end
         #
         # == For more info:
@@ -108,7 +108,7 @@ module Devise #:nodoc:
             self.send(:before_facebook_connect, facebook_session) rescue nil
           end
         end
-        
+
         # Hook that gets called *after* connect (each time). Useful for
         # fetching additional user info (etc.) from Facebook.
         #
@@ -180,7 +180,7 @@ module Devise #:nodoc:
             self.facebook_auto_create_account
           end
 
-          # Authenticate using a Facebook UID.
+          # Authenticate a user based on Facebook UID.
           #
           def facebook_connect(attributes = {})
             if attributes[:uid].present?
@@ -196,13 +196,13 @@ module Devise #:nodoc:
             #
             # == Example:
             #
-            #   def self.find_for_facebook_connect(conditions = {})
+            #   def self.find_for_facebook_connect(uid, conditions = {})
             #     conditions[:active] = true
-            #     self.find(:first, :conditions => conditions)
+            #     self.find_by_facebook_uid(uid, :conditions => conditions)
             #   end
             #
-            def find_for_facebook_connect(uid)
-              self.find_by_facebook_uid(uid)
+            def find_for_facebook_connect(uid, conditions = {})
+              self.find_by_facebook_uid(uid, :conditions => conditions)
             end
 
             # Contains the logic used in authentication. Overwritten by other devise modules.

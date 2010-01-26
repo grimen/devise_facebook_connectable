@@ -32,7 +32,6 @@ module Devise #:nodoc:
         def self.included(base) #:nodoc:
           base.class_eval do
             extend ClassMethods
-            extend ::Devise::Models::SessionSerializer
           end
         end
 

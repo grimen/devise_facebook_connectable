@@ -9,9 +9,7 @@ module Devise #:nodoc:
       # Default strategy for signing in a user using Facebook Connect (a Facebook account).
       # Redirects to sign_in page if it's not authenticated
       #
-      class FacebookConnectable < ::Warden::Strategies::Base
-
-        include ::Devise::Strategies::Base
+      class FacebookConnectable < ::Devise::Strategies::Base
 
         # Without a Facebook session authentication cannot proceed.
         #

@@ -21,7 +21,7 @@ begin
     spec.files = FileList['[A-Z]*', File.join(*%w[{generators,lib,rails} ** *]).to_s]
 
     spec.add_dependency 'activesupport',   '>= 2.3.0'
-    spec.add_dependency 'devise',          '>= 0.9.0'
+    spec.add_dependency 'devise',          '1.0.0'
     spec.add_dependency 'facebooker',      '>= 1.0.55'
   end
   Jeweler::GemcutterTasks.new

@@ -98,12 +98,12 @@ Note: The @--api@ and @--secret@ arguments only makes sense if you already got F
 <pre>
   class User < ActiveRecord::Base
 
-    devise :facebook_connectable
-
-    # optional: other devise modules
+    devise :facebook_connectable, ...
 
   end
 </pre>
+
+*Note:* All modules must be specified on the same line since Devise 1.0.0, otherwise Devise will only load the last call @devise [MODULES]@ - which will cause FacebookConnectable to fail to initialize.
 
 h2. Configuration
 

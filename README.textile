@@ -76,7 +76,7 @@ Note: The @--api@ and @--secret@ arguments only makes sense if you already got F
 *Facebook Connectable: Migration*
 
 <pre>
-  create_table :users do
+  create_table :users do |t|
 
     t.facebook_connectable
 

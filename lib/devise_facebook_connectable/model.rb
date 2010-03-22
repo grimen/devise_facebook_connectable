@@ -180,7 +180,7 @@ module Devise #:nodoc:
 
           # Authenticate a user based on Facebook UID.
           #
-          def facebook_connect(attributes = {})
+          def authenticate_with_facebook_connect(attributes = {})
             if attributes[:uid].present?
               self.find_for_facebook_connect(attributes[:uid])
             end

@@ -25,7 +25,7 @@ module Devise #:nodoc:
             facebook_session = ::Facebooker::Session.current # session[:facebook_session]
             facebook_user = facebook_session.user
 
-            user = klass.facebook_connect(:uid => facebook_user.uid)
+            user = klass.authenticate_with_facebook_connect(:uid => facebook_user.uid)
 
             if user.present?
               success!(user)

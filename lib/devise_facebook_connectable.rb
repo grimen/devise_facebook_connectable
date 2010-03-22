@@ -1,17 +1,6 @@
 # encoding: utf-8
-begin
-  require 'devise'
-rescue
-  gem 'devise'
-  require 'devise'
-end
-
-begin
-  require 'facebooker'
-rescue
-  gem 'facebooker'
-  require 'facebooker'
-end
+require 'devise'
+require 'facebooker'
 
 require 'devise_facebook_connectable/model' # QUESTION: should this really be here? Autoloaded below...
 require 'devise_facebook_connectable/strategy'

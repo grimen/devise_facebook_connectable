@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'devise/schema'
-require 'devise_facebook_connectable/model'
 
 module Devise #:nodoc:
   module FacebookConnectable #:nodoc:

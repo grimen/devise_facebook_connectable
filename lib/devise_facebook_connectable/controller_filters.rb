@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'facebooker/session'
+require 'action_controller'
 
 module Devise #:nodoc:
   module FacebookConnectable #:nodoc:
@@ -15,7 +16,6 @@ module Devise #:nodoc:
         #
         #   * http://github.com/mmangino/facebooker/blob/master/lib/facebooker/rails/controller.rb
         #
-
         def self.included(base) #:nodoc:
           base.class_eval do
             before_filter :expired_session_hack
@@ -30,6 +30,7 @@ module Devise #:nodoc:
             #
             def expired_session_hack
               clear_facebook_session_information
+              Facebooker::Session.current = nil
             rescue
               if RUBY_VERSION >= '1.9' && RAILS_GEM_VERSION == '2.3.4'
                 # Rails 2.3.4 on Ruby 1.9 issue. Should not happen in Rails 2.3.5+

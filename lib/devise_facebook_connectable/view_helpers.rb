@@ -135,8 +135,7 @@ module Devise #:nodoc:
               "Use: facebook_*_link(:some_scope), or facebook_*_link(:scope => :some_scope)")
           end
 
-          scope = args.detect { |arg| arg.is_a?(Symbol) } || options[:scope]
-          scope ||= ::Warden::Manager.default_scope
+          scope = args.detect { |arg| arg.is_a?(Symbol) } || options[:scope] || ::Devise.default_scope
           mapping = ::Devise.mappings[scope]
 
           if mapping.for.include?(:facebook_connectable)

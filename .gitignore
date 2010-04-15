@@ -2,4 +2,3 @@
 pkg
 *.log
 .*~
-*.gemspec

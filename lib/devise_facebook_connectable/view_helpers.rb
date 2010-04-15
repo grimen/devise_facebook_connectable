@@ -164,7 +164,7 @@ module Devise #:nodoc:
               :id => (sign_out_form ? 'fb_connect_sign_out_form' : 'fb_connect_sign_in_form'),
               :style => 'display:none;'
             )
-          scope = ::Devise::Mapping.find_by_path(request.path).to rescue scope
+          scope = ::Devise::Mapping.find_by_path(request.path).name rescue scope
           url = sign_out_form ? destroy_session_path(scope) : session_path(scope)
 
           form_for(scope, :url => url, :html => options) { |f| }

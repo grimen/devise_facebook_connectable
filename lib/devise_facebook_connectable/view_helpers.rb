@@ -121,7 +121,7 @@ module Devise #:nodoc:
 
       protected
 
-        # Auto-detect Devise scope using +Warden::Manager.default_scope+.
+        # Auto-detect Devise scope using +Devise.default_scope+.
         # Used to make the link-helpers smart if - like in most cases -
         # only one devise scope will be used, e.g. "user" or "account".
         #

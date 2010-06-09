@@ -65,7 +65,7 @@ module Devise #:nodoc:
         options.merge!(:sign_out => true) if options[:autologoutlink] && signed_in?(scope)
 
         content_tag(:div, :class => 'facebook_connect_link sign_in') do
-          facebook_connect_form(scope, options.slice(:method)) <<
+          with_output_buffer { facebook_connect_form(scope, options.slice(:method)) } +
           if options[:button]
             fb_login_button('devise.facebook_connectable.sign_in();', options)
           else
@@ -91,7 +91,7 @@ module Devise #:nodoc:
           )
 
         content_tag(:div, :class => 'facebook_connect_link sign_out') do
-          facebook_connect_form(scope, :sign_out => true, :method => :get) <<
+          with_output_buffer { facebook_connect_form(scope, :sign_out => true, :method => :get) } +
           if options[:button]
             fb_login_button('devise.facebook_connectable.sign_out();', options.merge(:autologoutlink => true))
           else
